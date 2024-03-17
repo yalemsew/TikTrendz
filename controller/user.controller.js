@@ -10,6 +10,7 @@ exports.findAll = (req, res) => {
   User.findAll()
     .then((users) => {
       console.log(users);
+      res.send(users);
     })
     .catch((err) => {
       console.error("Error:", err);
