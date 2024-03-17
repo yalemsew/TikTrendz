@@ -3,9 +3,10 @@ const User = require("../model/user.model.js");
 // Create and Save a new User
 exports.create = (req, res) => {
   // TODO: Add your logic here
+  //test
 };
 
-// Retrieve and return all users from the database.
+// Retrieve and return all users from the database. xxxx
 exports.findAll = (req, res) => {
   User.findAll()
     .then((users) => {
