@@ -7,7 +7,7 @@ exports.create = (req, res) => {
   // test111
 };
 
-// Retrieve and return all users from the database.
+// Retrieve and return all users from the database. xxxx
 exports.findAll = (req, res) => {
   User.findAll()
     .then((users) => {
