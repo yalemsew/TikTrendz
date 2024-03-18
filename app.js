@@ -21,8 +21,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 // MongoDB
 mongoose
-  .connect(process.env.MONGODB_RUL, {
-  })
+  .connect(process.env.MONGODB_RUL, {})
   .then(() => console.log("MongoDB connected..."))
   .catch((err) => console.log("Error: " + err));
 
@@ -43,4 +42,16 @@ const api = TikAPI(process.env.TIKAPI_KEY);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+
+  (async function () {
+    try {
+      let response = await api.public.explore({
+        session_id: 0,
+        country: "br",
+      });
+      console.log(response.json);
+    } catch (err) {
+      console.log(err?.statusCode, err?.message, err?.json);
+    }
+  })();
 });
