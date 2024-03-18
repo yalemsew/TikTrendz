@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
+const TikAPI = require("tikapi").default;
 
 const app = express();
 
@@ -26,6 +27,9 @@ sequelize
 // Routes
 require("./router/app.router")(app);
 require("./router/user.router")(app);
+
+// Tik API
+const api = TikAPI(process.env.TIKAPI_KEY);
 
 // Start server
 const PORT = process.env.PORT || 3000;
