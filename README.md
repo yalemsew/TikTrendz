@@ -21,7 +21,11 @@ TikTrendz is a video analysis and statistics platform based on TikTok. Our aim i
 * CVS: Github 
 * Teamwork: Github Project, Github Wiki, face-to-face meeting 
 
-The front end, developed using jQuery, will provide a user-friendly interface for consumers, retailers, and producers to interact with the system. The back end, developed using Express.js, will handle the communication between the front end, the MySQL database, and the blockchain. The MySQL database will be used for storing non-blockchain related data.
+## Getting Started
+
+* Open .env_local, follow the comments change the database connection information to your own
+* run ```npm install``` in the project root directory
+* Open localhost in browser
 
 ## Timeline:
 - 03/16/2024
