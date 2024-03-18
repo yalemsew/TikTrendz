@@ -7,7 +7,6 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        /* background-image: -webkit-radial-gradient(circle, #e3efed, #94ae89); */
         background-color: #000;
       }
 
@@ -41,12 +40,6 @@
         }
       }
 
-      /* .container:hover {
-        animation-name: heartbeat;
-        animation-duration: 0.5s;
-        animation-iteration-count: 1;
-      } */
-
       .container {
         max-width: 400px;
         margin: 50px auto;
@@ -55,7 +48,6 @@
         background-image: -webkit-radial-gradient(circle, #1f3a36, #0f150c);
         color: #e3efed;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        /* transition: transform 0.5s; */
       }
 
       h2 {
@@ -95,7 +87,6 @@
       .sign-up {
         text-align: center;
         margin-top: 15px;
-        animation-name: initial;
       }
 
       .sign-up a:hover {
@@ -112,16 +103,41 @@
   <body>
     <div class="container">
       <h2>Sign In For X</h2>
-      <form action="signin" method="POST">
+      <form id="loginForm">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required />
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
         <button type="submit">Sign In</button>
+        <p id="errorText" style="color: red"></p>
       </form>
       <div class="sign-up">
         <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#loginForm").submit(function (e) {
+          e.preventDefault();
+
+          var formData = $(this).serialize();
+          $.ajax({
+            type: "POST",
+            url: "your-server-endpoint-url",
+            data: formData,
+            success: function (response) {
+              // Handle successful response
+              window.location.href = "dashboard.html";
+            },
+            error: function (xhr, status, error) {
+              // Handle error response
+              $("#errorText").text("Incorrect email or password.");
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>
