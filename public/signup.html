@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 20px;
+        background-image: -webkit-radial-gradient(circle, #1f3a36, #0f150c);
+        color: #e3efed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #455566;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #526f84;
+      }
+
+      .sign-in {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .sign-in a:hover {
+        border-radius: 5px;
+        color: #90a3b3;
+      }
+
+      .sign-in a {
+        color: #b0bcc8;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sign Up</h2>
+      <form action="signup.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="name" required />
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email"
+          required
+        />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="password"
+          required
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+      <div class="sign-in">
+        <p>Already have an account? <a href="signin.html">Sign In</a></p>
+      </div>
+    </div>
+  </body>
+</html>

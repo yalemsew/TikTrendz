@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In/Sign Up</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        /* background-image: -webkit-radial-gradient(circle, #e3efed, #94ae89); */
+        background-color: #000;
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px) rotate(0.5deg);
+        }
+        50% {
+          transform: translateX(5px) rotate(-0.5deg);
+        }
+        75% {
+          transform: translateX(-5px) rotate(0.5deg);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* .container:hover {
+        animation-name: heartbeat;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+      } */
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 20px;
+        background-image: -webkit-radial-gradient(circle, #1f3a36, #0f150c);
+        color: #e3efed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* transition: transform 0.5s; */
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #455566;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #526f84;
+        animation-name: heartbeat;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+      }
+
+      .sign-up {
+        text-align: center;
+        margin-top: 15px;
+        animation-name: initial;
+      }
+
+      .sign-up a:hover {
+        border-radius: 5px;
+        color: #90a3b3;
+      }
+
+      .sign-up a {
+        color: #b0bcc8;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sign In For X</h2>
+      <form action="signin" method="POST">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Sign In</button>
+      </form>
+      <div class="sign-up">
+        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+      </div>
+    </div>
+  </body>
+</html>
