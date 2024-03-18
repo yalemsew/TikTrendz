@@ -4,6 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const TikAPI = require("tikapi").default;
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -17,6 +18,13 @@ app.use(express.static(path.join(__dirname, "../public")));
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "mysql",
 });
+
+// MongoDB
+mongoose
+  .connect(process.env.MONGODB_RUL, {
+  })
+  .then(() => console.log("MongoDB connected..."))
+  .catch((err) => console.log("Error: " + err));
 
 // Check DB Connection
 sequelize
