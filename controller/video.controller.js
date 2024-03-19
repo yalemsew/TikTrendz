@@ -110,7 +110,7 @@ exports.fetch = (api) => (req, res) => {
 exports.getAllTrending = function (req, res) {
   Video.find({})
     .then((videos) => {
-      console.log("All videos:", videos);
+      // console.log("All videos:", videos);
       res.json(videos);
     })
     .catch((err) => {

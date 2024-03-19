@@ -93,7 +93,7 @@
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
   <script type="text/javascript">
     // 
-    
+
     // create hashtag wordcloud
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('scrollButton1').addEventListener('click', function() {
@@ -161,9 +161,22 @@
       $.get("/trending", (data) => {
         // console.log(data)
         data.forEach((item) => {
-          $("#trendingItems").append(`<div class="item" style="background-image: url('${item.reflowCover}');"></div>`)
+          $("#trendingItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
         })
       })
+
+      // click video reflowCover event
+      $(document).on('click', '.item', function() {
+        console.log("hello");
+        let playObj = {
+          cookie: $(this).attr('playCookie'),
+          playUrl: $(this).attr('playUrl'),
+        };
+
+        localStorage.setItem('playData', JSON.stringify(playObj));
+        window.location.href = "/play";
+      });
+
     })
   </script>
 </head>

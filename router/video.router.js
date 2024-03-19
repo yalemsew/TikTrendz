@@ -9,4 +9,12 @@ module.exports = function (app, api) {
   app.get("/", (req, res) => {
     res.render("mainpage");
   });
+
+  app.post("/play", (req, res) => {
+    
+  })
+
+  app.get("/play", (req, res) => {
+    res.render("videoPlay");
+  });
 };
