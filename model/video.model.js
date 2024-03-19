@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const HashtagSchema = new Schema({
-    hashtagId: String,
-    nahashtagNameme: String
-  });
+  hashtagId: String,
+  nahashtagNameme: String,
+});
 
 const VideoSchema = new Schema({
   videoLinkHeaders: {
@@ -43,6 +43,7 @@ const VideoSchema = new Schema({
   },
   textExtra: [HashtagSchema],
   downloadAddr: String,
+  reflowCover: String,
 });
 
-module.exports = mongoose.model('Video', VideoSchema);
+module.exports = mongoose.model("Video", VideoSchema);
