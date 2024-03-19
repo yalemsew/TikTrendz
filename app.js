@@ -31,10 +31,6 @@ sequelize
   .then(() => console.log("Database connected..."))
   .catch((err) => console.log("Error: " + err));
 
-// Routes
-require("./router/app.router")(app);
-require("./router/user.router")(app);
-
 // Tik API
 const api = TikAPI(process.env.TIKAPI_KEY);
 
@@ -42,16 +38,9 @@ const api = TikAPI(process.env.TIKAPI_KEY);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
-
-  (async function () {
-    try {
-      let response = await api.public.explore({
-        session_id: 0,
-        country: "br",
-      });
-      console.log(response.json);
-    } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
-    }
-  })();
 });
+
+// Routes
+require("./router/app.router")(app);
+require("./router/user.router")(app);
+require("./router/video.router")(app, api);
