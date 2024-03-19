@@ -173,8 +173,14 @@
           playUrl: $(this).attr('playUrl'),
         };
 
-        localStorage.setItem('playData', JSON.stringify(playObj));
-        window.location.href = "/play";
+        $.post("/play", playObj, (response) => {
+          if (response.redirectUrl) {
+            window.location.href = response.redirectUrl;
+          }
+        });
+
+        // localStorage.setItem('playData', JSON.stringify(playObj));
+        // window.location.href = "/play";
       });
 
     })
