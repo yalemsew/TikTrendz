@@ -5,6 +5,8 @@ module.exports = function (app, api) {
     app.get("/fetch", videoController.fetch(api));
 
     app.get("/trending", videoController.getAllTrending);
+
+    
   
   };
   
