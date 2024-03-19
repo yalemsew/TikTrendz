@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <link rel="stylesheet" href="./css/play.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
-    
+
+  <div id="navbar"></div>
+
+  <div class="video-container">
+    <video id="mainVideo" width="100%" height="auto" preload="auto" controls>
+      <source src="path/to/your/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="play-button"></div>
+  </div>
+
+  <script src="./js/script.js"></script>
 </body>
+
 </html>
