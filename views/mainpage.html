@@ -92,8 +92,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
   <script type="text/javascript">
-    // 
-
     // create hashtag wordcloud
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('scrollButton1').addEventListener('click', function() {
@@ -111,7 +109,6 @@
       document.getElementById('scrollButton4').addEventListener('click', function() {
         document.getElementById('items2').scrollLeft += 1000;
       });
-
 
       const Texts = [
         'HTML', 'CSS', 'JAVASCRIPT',
@@ -147,7 +144,6 @@
 
 
     $(() => {
-      $("#navbar").load("./partial/navBar.html");
       // hashtag click event
       let rootEl = document.querySelector('.tagcloud');
       rootEl.addEventListener('click', function clickEventHandler(e) {
@@ -190,6 +186,7 @@
 <body>
 
   <div id="navbar"></div>
+  <%- include('./partial/navBar.html') %>
 
   <div class="sphere_body">
     <span class="Sphere"></span>
