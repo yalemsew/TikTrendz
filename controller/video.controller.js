@@ -113,6 +113,6 @@ exports.getAllTrending = function (req, res) {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).json({ error: "服务器错误" });
+      res.status(500).json({ error: "server error" });
     });
 };
