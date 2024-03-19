@@ -5,6 +5,7 @@ const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const TikAPI = require("tikapi").default;
 const mongoose = require("mongoose");
+const ejs = require("ejs");
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
+app.set("view engine", "html");
+app.engine("html", ejs.renderFile);
 
 // Database
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
