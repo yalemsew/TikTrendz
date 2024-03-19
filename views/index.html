@@ -7,9 +7,12 @@
   <title>Document</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $('#myb').click(() => {
-      $.get('/trending', (data) => {
-        console.log(data)
+    $(() => {
+      $('#myb').click(() => {
+        console.log('click')
+        $.get('/trending', (data) => {
+          console.log(data)
+        })
       })
     })
   </script>
@@ -17,7 +20,7 @@
 
 <body>
   <span id="desc"></span>
-  <button id="myb"></button>
+  <button id="myb">button</button>
 </body>
 
 </html>
