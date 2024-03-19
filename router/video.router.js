@@ -7,6 +7,6 @@ module.exports = function (app, api) {
   app.get("/trending", videoController.getAllTrending);
 
   app.get("/", (req, res) => {
-    res.render("index");
+    res.render("mainpage");
   });
 };

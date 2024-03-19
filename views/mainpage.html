@@ -1,247 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-body {
-    padding: 0;
-    margin: 0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #141414;
+      /* Dark background */
+      color: #fff;
+      /* Light text */
+      font-family: 'Arial', sans-serif;
+      /* Modern font */
+    }
 
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow-x: hidden;
-}
+    nav {
+      display: flex;
+      align-items: center;
+      height: 80px;
+      background-color: #181818;
+      /* Darker nav bar */
+      padding: 0 20px;
+      /* Add some padding */
+    }
 
-nav{
-    display: flex;
-    align-items: center;
-    height: 100px;
-    background-color: aquamarine
-}
+    .nav_items {
+      display: flex;
+    }
 
-.nav_items{
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-    margin: auto;
-}
+    .nav_items div {
+      margin-right: 20px;
+      /* Space between nav items */
+      font-weight: bold;
+    }
 
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: hidden;
+      margin-top: 20px;
+      /* Add margin at the top for spacing */
+    }
 
+    .items {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+    }
 
+    .item {
+      flex: 0 0 auto;
+      width: 300px;
+      /* Larger width */
+      height: 169px;
+      /* Keep a 16:9 aspect ratio */
+      background-color: #333;
+      margin-right: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* Smooth transitions */
+      cursor: pointer;
+    }
 
-.items {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    scroll-behavior: smooth;
-    position: relative;
-    right: 25px;
-}
+    .item:hover {
+      transform: scale(1.05);
+      /* Subtle zoom */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      /* Add shadow */
+    }
 
-.items::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-}
-
-.items::-webkit-scrollbar-button {
-    background-color: white; /* Change the color of the scrollbar arrow here */
-}
-
-.item {
-    flex: 0 0 auto;
-    width: 200px;
-    height: 200px;
-    background-color: #eee;
-    margin-right: 10px;
-}
-
-.item:hover {
-    transform: scale(1.5);
-    background-color: red;
-}
-
-.scrollButton {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    height: 200px;
-    background-color: grey;
-    border: 1px solid red;
-    z-index: 1;
-    opacity: 0;
-    
-    
-}
-.scrollButton:hover{
-    opacity: 0.4;
-}
+    /* Adjustments for the scroll button for better visibility */
+    .scrollButton {
+      display: none;
+      /* Consider hiding the scroll buttons for a cleaner look or restyle them significantly */
+    }
 
 
+    .scrollButton:hover {
+      opacity: 0.4;
+    }
 
-
- /* Css of sphere element --------------------------------------------------- */
+    /* Css of sphere element --------------------------------------------------- */
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+    /* Applying CSS to sphere */
+    .tagcloud {
+      display: inline-block;
+      top: 0px;
+      left: 32%;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 20px;
+    }
 
-         /* Applying CSS to sphere */
-        .tagcloud {
-        display: inline-block;
-        top: 0px;
-        left: 32%;
-        font-weight: bold;
-        letter-spacing: 1px;
-        font-family: 'Bebas Neue', cursive;
-        font-size: 20px;
-        }
+    /* Change color of each text in sphere on hover   */
+    .tagcloud--item:hover {
+      color: #FFC300;
+    }
 
-        /* Change color of each text in sphere on hover   */
-        .tagcloud--item:hover {
-        color: #FFC300 ;
-        }
-
-        .sphere_body {
-            height: 500px;
-        }
-
-
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
-    <script type="text/javascript">
+    .sphere_body {
+      height: 500px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
+  <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('scrollButton1').addEventListener('click', function() {
-            document.getElementById('items1').scrollLeft -= 1000;
-            console.log("heyy")
-        });
-            document.getElementById('scrollButton2').addEventListener('click', function() {
-            document.getElementById('items1').scrollLeft += 1000;
-            console.log("heyy")
-        });
+      document.getElementById('scrollButton1').addEventListener('click', function() {
+        document.getElementById('items1').scrollLeft -= 1000;
+        console.log("heyy")
+      });
+      document.getElementById('scrollButton2').addEventListener('click', function() {
+        document.getElementById('items1').scrollLeft += 1000;
+        console.log("heyy")
+      });
 
-            document.getElementById('scrollButton3').addEventListener('click', function() {
-            document.getElementById('items2').scrollLeft -= 1000;
-        });
-            document.getElementById('scrollButton4').addEventListener('click', function() {
-            document.getElementById('items2').scrollLeft += 1000;
-        });
-        
+      document.getElementById('scrollButton3').addEventListener('click', function() {
+        document.getElementById('items2').scrollLeft -= 1000;
+      });
+      document.getElementById('scrollButton4').addEventListener('click', function() {
+        document.getElementById('items2').scrollLeft += 1000;
+      });
 
-        const Texts = [
-            'HTML', 'CSS', 'JAVASCRIPT',
-            'SWIFT', 'MONGOOSE', 'REACT',
-            'PYTHON', 'SASS',
-            'DJANGO', 'NODEJS', 'MONGODB',
-            'EXPRESS', 'MYSQL', 'JQUERY', 'JAVA'
-        ];
 
-        var tagCloud = TagCloud('.Sphere', Texts, {
+      const Texts = [
+        'HTML', 'CSS', 'JAVASCRIPT',
+        'SWIFT', 'MONGOOSE', 'REACT',
+        'PYTHON', 'SASS',
+        'DJANGO', 'NODEJS', 'MONGODB',
+        'EXPRESS', 'MYSQL', 'JQUERY', 'JAVA'
+      ];
 
-            // Sphere radius in px
-            radius: 230,
+      let tagCloud = TagCloud('.Sphere', Texts, {
 
-            // animation speed
-            // slow, normal, fast
-            maxSpeed: 'normal',
-            initSpeed: 'fast',
+        // Sphere radius in px
+        radius: 230,
 
-            // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)] 
-            direction: 135,
+        // animation speed
+        // slow, normal, fast
+        maxSpeed: 'normal',
+        initSpeed: 'fast',
 
-            // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
-            keep: true
+        // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)] 
+        direction: 135,
 
-        });
+        // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
+        keep: true
 
-        // Giving color to each text in sphere
-        var color = '#FF5733 ';
-        document.querySelector('.Sphere').style.color = color;
+      });
+
+      // Giving color to each text in sphere
+      let color = '#fff';
+      document.querySelector('.Sphere').style.color = color;
 
     });
-</script>
+
+
+    $(() => {
+      // click tag event
+      let rootEl = document.querySelector('.tagcloud');
+      rootEl.addEventListener('click', function clickEventHandler(e) {
+        console.log(e.target.className)
+        if (e.target.className === 'tagcloud--item') {
+          window.open(`https://www.google.com/search?q=${e.target.innerText}`, '_blank');
+          // your code here
+        }
+      });
+    })
+  </script>
 </head>
+
 <body>
-    <nav>
-        <div class="nav_logo">
-            logo
-        </div>
-        <div class="nav_items">
-            <div>Home</div>
-            <div>About </div>
-            <div>Contact</div>
-        </div>
-    </nav>
-    
-
-    <div class="sphere_body">
-        <span class="Sphere"></span>
+  <nav>
+    <!-- <div class="nav_logo">
+      logo
+    </div> -->
+    <div class="nav_items">
+      <div>Home</div>
+      <div>About </div>
+      <div>Contact</div>
     </div>
-    
+  </nav>
+
+
+  <div class="sphere_body">
+    <span class="Sphere"></span>
+  </div>
 
 
 
 
-     <!-- The container for the videos information -->
-    <div>
-        <h2> Catagory name </h2>
-        <div class="container">
-            <button class="scrollButton prev" id="scrollButton1">&#10094;</button>
-            <div class="items" id="items1">
-                <div class="item">Item 1</div>
-                <div class="item"><br><br>Item 2</div>
-                <div class="item">Item 3</div>
-                <div class="item">Item 4</div>
-                <div class="item">Item 5</div>
-                <div class="item">Item 6</div>
-                <div class="item">Item 7</div>
-                <div class="item">Item 8</div>
-                <div class="item">Item 1</div>
-                <div class="item">Item 2</div>
-                <div class="item">Item 3</div>
-                <div class="item">Item 4</div>
-                <div class="item">Item 5</div>
-                <div class="item">Item 6</div>
-                <div class="item">Item 7</div>
-                <div class="item">Item 8</div>
-            </div>
-            <button class="scrollButton next" id="scrollButton2">&#10095;</button>
-        </div>
-    </div>
 
-    <br><br>
-
+  <!-- The container for the videos information -->
+  <div>
+    <h2> Catagory name </h2>
     <div class="container">
-        <button class="scrollButton prev" id="scrollButton3">&#10094;</button>
-        <div class="items" id="items2">
-            <div class="item">Item 1</div>
-            <div class="item">Item 2</div>
-            <div class="item">Item 3</div>
-            <div class="item">Item 4</div>
-            <div class="item">Item 5</div>
-            <div class="item">Item 6</div>
-            <div class="item">Item 7</div>
-            <div class="item">Item 8</div>
-            <div class="item">Item 1</div>
-            <div class="item">Item 2</div>
-            <div class="item">Item 3</div>
-            <div class="item">Item 4</div>
-            <div class="item">Item 5</div>
-            <div class="item">Item 6</div>
-            <div class="item">Item 7</div>
-            <div class="item">Item 8</div>
-        </div>
-        <button class="scrollButton next" id="scrollButton4">&#10095;</button>
+      <button class="scrollButton prev" id="scrollButton1">&#10094;</button>
+      <div class="items" id="items1">
+        <div class="item">Item 1</div>
+        <div class="item"><br><br>Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+        <div class="item">Item 5</div>
+        <div class="item">Item 6</div>
+        <div class="item">Item 7</div>
+        <div class="item">Item 8</div>
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+        <div class="item">Item 5</div>
+        <div class="item">Item 6</div>
+        <div class="item">Item 7</div>
+        <div class="item">Item 8</div>
+      </div>
+      <button class="scrollButton next" id="scrollButton2">&#10095;</button>
     </div>
+  </div>
 
-    <footer>
+  <br><br>
 
-    </footer>
+  <div class="container">
+    <button class="scrollButton prev" id="scrollButton3">&#10094;</button>
+    <div class="items" id="items2">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+      <div class="item">Item 4</div>
+      <div class="item">Item 5</div>
+      <div class="item">Item 6</div>
+      <div class="item">Item 7</div>
+      <div class="item">Item 8</div>
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+      <div class="item">Item 4</div>
+      <div class="item">Item 5</div>
+      <div class="item">Item 6</div>
+      <div class="item">Item 7</div>
+      <div class="item">Item 8</div>
+    </div>
+    <button class="scrollButton next" id="scrollButton4">&#10095;</button>
+  </div>
+
+  <footer>
+
+  </footer>
 
 </body>
+
 </html>
