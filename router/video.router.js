@@ -3,6 +3,8 @@ module.exports = function (app, api) {
   
     // get latest videos from tiktok and save to db
     app.get("/fetch", videoController.fetch(api));
+
+    app.get("/trending", videoController.getAllTrending);
   
   };
   
