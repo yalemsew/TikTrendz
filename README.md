@@ -12,12 +12,11 @@ TikTrendz is a video analysis and statistics platform based on TikTok. Our aim i
 
 4. **Comment Analysis**: Our platform analyzes comments on TikTok to help users understand public reactions and sentiments.
 
-## Technology Stack:
+## Techstack:
 
 * Front End: HTML, CSS, Javascript(jQuery AJAX)  
 * Back End: Express.js 
-* DB: MySQL 
-* Blockchain: Ethereum
+* DB: MySQL, MongoDB
 * CVS: Github 
 * Teamwork: Github Project, Github Wiki, face-to-face meeting 
 
