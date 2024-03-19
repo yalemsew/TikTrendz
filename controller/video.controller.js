@@ -39,6 +39,7 @@ let videoObj = {
   },
   textExtra: [],
   downloadAddr: "",
+  reflowCover: "",
 };
 let originalResJson = {};
 
@@ -74,6 +75,7 @@ exports.fetch = (api) => (req, res) => {
             stats: item.stats,
             textExtra: [],
             downloadAddr: item?.video?.downloadAddr,
+            reflowCover: item?.video?.reflowCover,
           };
 
           if (Array.isArray(item.textExtra)) {
