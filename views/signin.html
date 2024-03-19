@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In/Sign Up</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px) rotate(0.5deg);
+        }
+        50% {
+          transform: translateX(5px) rotate(-0.5deg);
+        }
+        75% {
+          transform: translateX(-5px) rotate(0.5deg);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 20px;
+        background-image: -webkit-radial-gradient(circle, #1f3a36, #0f150c);
+        color: #e3efed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #455566;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #526f84;
+        animation-name: heartbeat;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+      }
+
+      .sign-up {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .sign-up a:hover {
+        border-radius: 5px;
+        color: #90a3b3;
+      }
+
+      .sign-up a {
+        color: #b0bcc8;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sign In For X</h2>
+      <form id="loginForm" action="/login" method="post">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Sign In</button>
+        <p id="errorText" style="color: red"></p>
+      </form>
+      <div class="sign-up">
+        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#loginForm").submit(function (e) {
+          e.preventDefault();
+
+          var formData = $(this).serialize();
+          $.ajax({
+            type: "POST",
+            url: "your-server-endpoint-url",
+            data: formData,
+            success: function (response) {
+              // Handle successful response
+              window.location.href = "dashboard.html";
+            },
+            error: function (xhr, status, error) {
+              // Handle error response
+              $("#errorText").text("Incorrect email or password.");
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
