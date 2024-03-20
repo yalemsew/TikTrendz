@@ -8,33 +8,23 @@ function createLiveStreamObj(item, category) {
     liveStreamId: item.id_str,
     title: item.title,
     cover: {
-      avgColor: item.cover.avg_color,
-      uri: item.cover.uri,
-      urlList: item.cover.url_list,
+      urlList: item.cover?.url_list || [],
     },
-    streamUrls: {
-      flv: {
-        HD1: item.stream_url.flv_pull_url.HD1,
-        SD1: item.stream_url.flv_pull_url.SD1,
-        SD2: item.stream_url.flv_pull_url.SD2,
-      },
-      rtmp: item.stream_url.rtmp_pull_url,
-    },
+    streamUrl: item.stream_url.live_core_sdk_data.pull_data.stream_data,
     author: {
-      userId: item.owner.id_str,
-      displayName: item.owner.nickname,
-      bioDescription: item.owner.bio_description,
+      userId: item.owner?.id_str || "",
+      displayName: item.owner?.nickname || "",
+      bioDescription: item.owner?.bio_description || "",
       avatar: {
-        large: item.owner.avatar_large.url_list[0],
-        medium: item.owner.avatar_medium.url_list[0],
-        thumb: item.owner.avatar_thumb.url_list[0],
+        large: item.owner?.avatar_large?.url_list?.[0] || "",
+        medium: item.owner?.avatar_medium?.url_list?.[0] || "",
+        thumb: item.owner?.avatar_thumb?.url_list?.[0] || "",
       },
-      followerCount: item.owner.follow_info.follower_count,
-      followingCount: item.owner.follow_info.following_count,
+      followerCount: item.owner?.follow_info?.follower_count || 0,
+      followingCount: item.owner?.follow_info?.following_count || 0,
     },
-    createdAt: new Date(), // Assuming you want to set the current date as the creation date
-    // updatedAt is automatically set by Mongoose to the current date by default
-    category: category, // Assuming you have a category field similar to the video object
+    createdAt: new Date(),
+    category: category,
   };
 
   return liveStreamObj;
@@ -45,41 +35,43 @@ exports.fetch = (api) => (req, res) => {
     accountKey: process.env.TIKAPI_ACCOUNT_KEY,
   });
   // fetch game livestreaming
+  let category = "game";
   (async function () {
     try {
       let response = await User.live.search({
-        query: "game",
+        query: category,
       });
-      console.log(response.json);
+      let liveStreams = [];
+      let header = {};
+      header = response.json["$other"].videoLinkHeaders;
+    //   console.log(response.json);
+
+      if (Array.isArray(response.json.data)) {
+        response.json.data.forEach((item) => {
+          let liveStream = createLiveStreamObj(item.live_info, category);
+          liveStream.videoLinkHeaders = header;
+          liveStreams.push(liveStream);
+        });
+      }
+
+        // Save the new livestreams to the database
+        Live.insertMany(liveStreams)
+          .then((docs) => {
+            console.log(
+              docs.length + " " + category + " livestreams saved successfully!"
+            );
+          })
+          .catch((err) => {
+            console.error(err);
+          });
     } catch (err) {
       console.log(err?.statusCode, err?.message, err?.json);
     }
   })();
 
-  // fetch programming livestreaming
-  (async function () {
-    try {
-      let response = await User.live.search({
-        query: "programming",
-      });
-      console.log(response.json);
-    } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
-    }
-  })();
+  // programming
 
-  // fetch outdoor livestreaming
-  (async function () {
-    try {
-      let response = await User.live.search({
-        query: "outdoor",
-      });
-      console.log(response.json);
-    } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
-    }
-  })();
-
+  // outdoor
 };
 
 exports.getLivesByCategory = function (req, res) {};

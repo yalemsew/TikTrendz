@@ -48,7 +48,7 @@ exports.fetch = (api) => (req, res) => {
     .then((response) => {
       let videos = [];
       let header = {};
-      header = response.json.$other.videoLinkHeaders;
+      header = response.json["$other"].videoLinkHeaders;
       if (Array.isArray(response.json.itemList)) {
         response.json.itemList.forEach((item) => {
           let video = createVideoObj(item, "trending");
@@ -96,7 +96,7 @@ exports.fetch = (api) => (req, res) => {
       Video.insertMany(videos)
         .then((docs) => {
           console.log(docs.length + " sport videos saved successfully!");
-          res.send("fetched successfully!");
+          // res.send("fetched successfully!");
         })
         .catch((err) => {
           console.error(err);
