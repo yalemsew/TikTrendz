@@ -48,7 +48,8 @@
       top: 50%;
     }
 
-    .item {
+    .item,
+    .live-item {
       flex: 0 0 auto;
       width: 171px;
       height: 305px;
@@ -58,7 +59,8 @@
       cursor: pointer;
     }
 
-    .item:hover {
+    .item:hover,
+    .live-item:hover {
       transform: scale(1.15);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
@@ -94,6 +96,7 @@
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script type="text/javascript">
     // create hashtag wordcloud
     document.addEventListener("DOMContentLoaded", function() {
@@ -217,8 +220,43 @@
         }
       });
 
+      // click live and play (modal)
+      $(document).on("click", ".live-item", function() {
+
+        let hlsUrl = $(this).attr("data-hlsurl")
+        // check hls support
+        let video = document.getElementById('modalVideo');
+        if (Hls.isSupported()) {
+          let hls = new Hls();
+          hls.loadSource(hlsUrl);
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            video.play();
+          });
+        }
+        // can play
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = hlsUrl;
+          video.addEventListener('canplay', function() {
+            video.play();
+          });
+        }
+
+        // show
+        $("#videoModal").css("display", "flex");
+      });
+
+      $(document).on("click", function(event) {
+        if ($(event.target).is("#videoModal")) {
+          $("#videoModal").css("display", "none");
+          $("#modalVideo")[0].pause();
+          $("#modalVideo source").attr("src", "");
+          $("#modalVideo")[0].load();
+        }
+      });
+
       // LiveStreaming
-      $("#Live").click(() => {
+      $(document).on("click", '#Live', function() {
         // console.log("click")
         const categories = ["game"];
 
@@ -240,19 +278,32 @@
         });
       })
 
+      // click home
+      $(document).on('click', '#Home', function() {
+        $('#liveStreamingContainer').css('display', 'none');
+        $('#videosContainer').css('display', '');
+      })
+
+
+
     });
 
     function updateLiveContent(category, liveData) {
-      $(".videos-row").css("display", "none");
+      $("#videosContainer").css("display", "none");
+      $("#liveStreamingContainer").css("display", "");
+
 
       const liveContainer = $("#liveStreamingItems");
       liveContainer.html("");
 
       liveData.forEach(function(live) {
-        console.log(live.cover.urlList[0])
-        console.log(live.title)
+        // console.log(live.cover.urlList[0])
+        // console.log(live.title)
+        let streamJson = JSON.parse(live.streamUrl);
+        let originHls = streamJson.data.origin.main.hls;
+        console.log(originHls)
         const liveContent = `
-      <div class="item" style="background-image: url('${live.cover.urlList[0]}');">
+      <div class="live-item" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
         <div class="item-prop1">${live.title}</div>
       </div>
     `;
@@ -284,39 +335,43 @@
   </div>
 
   <!-- The container for the videos information -->
-  <div class="videos-row">
-    <h2>Trending 🔥</h2>
-    <div class="container">
-      <div class="items" id="trendingItems"></div>
+  <!-- vidows container -->
+  <div id="videosContainer">
+    <div class="videos-row">
+      <h2>Trending 🔥</h2>
+      <div class="container">
+        <div class="items" id="trendingItems"></div>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Sport ⚽️</h2>
+      <div class="container">
+        <div class="items" id="sportItems"></div>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Funny 😂</h2>
+      <div class="container">
+        <div class="items" id="funnyItems"></div>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Cat 🐱</h2>
+      <div class="container">
+        <div class="items" id="catItems"></div>
+      </div>
     </div>
   </div>
 
-  <br /><br />
-
-  <div class="videos-row">
-    <h2>Sport ⚽️</h2>
-    <div class="container">
-      <div class="items" id="sportItems"></div>
-    </div>
-  </div>
-
-  <br /><br />
-
-  <div class="videos-row">
-    <h2>Funny 😂</h2>
-    <div class="container">
-      <div class="items" id="funnyItems"></div>
-    </div>
-  </div>
-
-  <br /><br />
-
-  <div class="videos-row">
-    <h2>Cat 🐱</h2>
-    <div class="container">
-      <div class="items" id="catItems"></div>
-    </div>
-  </div>
 
   <!-- livestreaming container -->
   <div class="lives-row" id="liveStreamingContainer">
