@@ -6,7 +6,7 @@ const { Sequelize } = require("sequelize");
 const TikAPI = require("tikapi").default;
 const mongoose = require("mongoose");
 const ejs = require("ejs");
-const session = require('express-session');
+const session = require("express-session");
 
 const app = express();
 
@@ -19,11 +19,13 @@ app.set("view engine", "html");
 app.engine("html", ejs.renderFile);
 
 // Session
-app.use(session({
-  secret: '2MI84oR5iibzBsydI54RvQ2BYbL6Yyk4',
-  resave: false,
-  saveUninitialized: true,
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // Database
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -55,3 +57,4 @@ app.listen(PORT, () => {
 require("./router/app.router")(app);
 require("./router/user.router")(app);
 require("./router/video.router")(app, api);
+require("./router/live.router")(app, api);

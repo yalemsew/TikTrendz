@@ -1,279 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./css/video_model.css">
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #141414;
-      /* Dark background */
-      color: #fff;
-      /* Light text */
-      font-family: 'Arial', sans-serif;
-      /* Modern font */
-    }
-
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      overflow-x: hidden;
-      margin-top: 20px;
-      /* Add margin at the top for spacing */
-    }
-
-    .items {
-      display: flex;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      scroll-behavior: smooth;
-    }
-
-    .item {
-      flex: 0 0 auto;
-      width: 171px;
-      /* Larger width */
-      height: 305px;
-      /* Keep a 16:9 aspect ratio */
-      background-color: #333;
-      margin-right: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      /* Smooth transitions */
-      cursor: pointer;
-    }
-
-    .item:hover {
-      transform: scale(1.15);
-      /* Subtle zoom */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      /* Add shadow */
-    }
-
-    /* Adjustments for the scroll button for better visibility */
-    .scrollButton {
-      display: none;
-    }
-
-    .scrollButton:hover {
-      opacity: 0.4;
-    }
-
-    /* Css of sphere element --------------------------------------------------- */
-    /* @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); */
-
-    /* Applying CSS to sphere */
-    .tagcloud {
-      display: inline-block;
-      top: 0px;
-      left: 32%;
-      font-weight: bold;
-      letter-spacing: 1px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 20px;
-    }
-
-    /* Change color of each text in sphere on hover   */
-    .tagcloud--item:hover {
-      color: red;
-      cursor: pointer;
-    }
-
-    .sphere_body {
-      height: 70vh;
-      width: 100%;
-    }
-  </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
-  <script type="text/javascript">
-    // create hashtag wordcloud
-    document.addEventListener('DOMContentLoaded', function() {
-
-      const Texts = [
-        'HTML', 'CSS', 'JAVASCRIPT',
-        'SWIFT', 'MONGOOSE', 'REACT',
-        'PYTHON', 'SASS',
-        'DJANGO', 'NODEJS', 'MONGODB',
-        'EXPRESS', 'MYSQL', 'JQUERY', 'JAVA'
-      ];
-
-      let tagCloud = TagCloud('.Sphere', Texts, {
-
-        // Sphere radius in px
-        radius: 230,
-
-        // animation speed
-        // slow, normal, fast
-        maxSpeed: 'normal',
-        initSpeed: 'fast',
-
-        // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)] 
-        direction: 135,
-
-        // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
-        keep: true
-
-      });
-
-      // Giving color to each text in sphere
-      let color = '#fff';
-      document.querySelector('.Sphere').style.color = color;
-
-    });
-
-    $(() => {
-      // hashtag click event
-      let rootEl = document.querySelector('.tagcloud');
-      rootEl.addEventListener('click', function clickEventHandler(e) {
-        console.log(e.target.className)
-        if (e.target.className === 'tagcloud--item') {
-          window.open(`https://www.google.com/search?q=${e.target.innerText}`, '_blank');
-        }
-      });
-
-      // load trending data
-      let request = {
-        category: 'trending',
-        count: 10
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/video_model.css" />
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        background-color: #141414;
+        /* Dark background */
+        color: #fff;
+        /* Light text */
+        font-family: "Arial", sans-serif;
+        /* Modern font */
       }
-      // let category = 'trending';
-      $.get("/getVideos", request, (data) => {
-        // console.log(data)
-        data.forEach((item) => {
-          $("#trendingItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
-        })
-      })
 
-      request = {
-        category: 'sport',
-        count: 10
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow-x: hidden;
+        margin-top: 20px;
+        /* Add margin at the top for spacing */
       }
-      // load sport data
-      $.get("/getVideos", request, (data) => {
-        // console.log(data)
-        data.forEach((item) => {
-          $("#sportItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
-        })
-      })
 
-      // click video reflowCover event
-      // $(document).on('click', '.item', function() {
-      //   console.log("hello");
-      //   let playObj = {
-      //     cookie: $(this).attr('playCookie'),
-      //     playUrl: $(this).attr('playUrl'),
-      //   };
+      .items {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+      }
+      .item-prop1 {
+        color: white;
+        font-size: 12px;
+        font-family: cursive;
+        margin: 10px;
+      }
+      .item_prop {
+        position: relative;
+        left: 40%;
+        top: 50%;
+      }
 
-      //   $.post("/play", playObj, (response) => {
-      //     if (response.redirectUrl) {
-      //       window.location.href = response.redirectUrl;
-      //     }
-      //   });
+      .item {
+        flex: 0 0 auto;
+        width: 171px;
+        height: 305px;
+        background-color: #333;
+        margin-right: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
 
-      // });
+      .item:hover {
+        transform: scale(1.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      }
 
-      // click video and play (modal)
-      $(document).on('click', '.item', function() {
-        let videoInfo = {
-          cookie: $(this).attr('playCookie'),
-          playUrl: $(this).attr('playUrl'),
-        };
+      .scrollButton {
+        display: none;
+      }
 
-        $.post("/play", videoInfo, () => {
-          $('#modalVideo source').attr('src', '/play');
-          $('#modalVideo')[0].load();
+      .scrollButton:hover {
+        opacity: 0.4;
+      }
 
-          $('#videoModal').css('display', 'flex');
-        }).fail(() => {
-          console.error("Error: Unable to play video.");
+      .tagcloud {
+        display: inline-block;
+        top: 0px;
+        left: 32%;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+      }
+
+      /* Change color of each text in sphere on hover   */
+      .tagcloud--item:hover {
+        color: red;
+        cursor: pointer;
+      }
+
+      .sphere_body {
+        height: 70vh;
+        width: 100%;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
+    <script type="text/javascript">
+      // create hashtag wordcloud
+      document.addEventListener("DOMContentLoaded", function () {
+        const Texts = [
+          "HTML",
+          "CSS",
+          "JAVASCRIPT",
+          "SWIFT",
+          "MONGOOSE",
+          "REACT",
+          "PYTHON",
+          "SASS",
+          "DJANGO",
+          "NODEJS",
+          "MONGODB",
+          "EXPRESS",
+          "MYSQL",
+          "JQUERY",
+          "JAVA",
+        ];
+
+        let tagCloud = TagCloud(".Sphere", Texts, {
+          // Sphere radius in px
+          radius: 230,
+
+          // animation speed
+          // slow, normal, fast
+          maxSpeed: "normal",
+          initSpeed: "fast",
+
+          // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)]
+          direction: 135,
+
+          // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
+          keep: true,
         });
 
+        // Giving color to each text in sphere
+        let color = "#fff";
+        document.querySelector(".Sphere").style.color = color;
       });
 
-      $(document).on('click', function(event) {
-        if ($(event.target).is('#videoModal')) {
-          $('#videoModal').css('display', 'none');
-          $('#modalVideo')[0].pause();
-          $('#modalVideo source').attr('src', "");
-          $('#modalVideo')[0].load();
-        }
+      $(() => {
+        // hashtag click event
+        let rootEl = document.querySelector(".tagcloud");
+        rootEl.addEventListener("click", function clickEventHandler(e) {
+          console.log(e.target.className);
+          const item = e.target.innerText;
+          if (e.target.className === "tagcloud--item") {
+            window.open(
+              // `https://www.google.com/search?q=${e.target.innerText}`,
+              // "_blank"
+              (window.location.href = `http://localhost:80/index2?item=${item}`)
+              // "http://localhost:80/play"
+            );
+          }
+        });
+
+        // load trending data
+        let request = {
+          category: "trending",
+          count: 20,
+        };
+        $.get("/getVideos", request, (data) => {
+          data.forEach((item) => {
+            $("#trendingItems").append(
+              `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+                <%- include('./partial/_item_prop.html') %>
+                </div>`
+            );
+          });
+        });
+
+        // load sport data
+        request = {
+          category: "sport",
+          count: 10,
+        };
+        $.get("/getVideos", request, (data) => {
+          data.forEach((item) => {
+            $("#sportItems").append(
+              `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+                <%- include('./partial/_item_prop.html') %>
+                </div>`
+            );
+          });
+        });
+
+        // load funny data
+        request = {
+          category: "funny",
+          count: 10,
+        };
+        $.get("/getVideos", request, (data) => {
+          data.forEach((item) => {
+            $("#funnyItems").append(
+              `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+                <%- include('./partial/_item_prop.html') %> 
+                </div>`
+            );
+          });
+        });
+
+        // load cat data
+        request = {
+          category: "cat",
+          count: 10,
+        };
+        $.get("/getVideos", request, (data) => {
+          data.forEach((item) => {
+            $("#catItems").append(
+              `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+                <%- include('./partial/_item_prop.html') %>
+                </div>`
+            );
+          });
+        });
+
+        // click video reflowCover event
+        // $(document).on('click', '.item', function() {
+        //   console.log("hello");
+        //   let playObj = {
+        //     cookie: $(this).attr('playCookie'),
+        //     playUrl: $(this).attr('playUrl'),
+        //   };
+
+        //   $.post("/play", playObj, (response) => {
+        //     if (response.redirectUrl) {
+        //       window.location.href = response.redirectUrl;
+        //     }
+        //   });
+
+        // });
+
+        // click video and play (modal)
+        $(document).on("click", ".item", function () {
+          let videoInfo = {
+            cookie: $(this).attr("playCookie"),
+            playUrl: $(this).attr("playUrl"),
+          };
+
+          $.post("/play", videoInfo, () => {
+            $("#modalVideo source").attr("src", "/play");
+            $("#modalVideo")[0].load();
+
+            $("#videoModal").css("display", "flex");
+          }).fail(() => {
+            console.error("Error: Unable to play video.");
+          });
+        });
+
+        $(document).on("click", function (event) {
+          if ($(event.target).is("#videoModal")) {
+            $("#videoModal").css("display", "none");
+            $("#modalVideo")[0].pause();
+            $("#modalVideo source").attr("src", "");
+            $("#modalVideo")[0].load();
+          }
+        });
       });
+    </script>
+  </head>
 
-    })
-  </script>
-</head>
+  <body>
+    <%- include('./partial/navBar.html') %>
 
-<body>
-  <%- include('./partial/navBar.html') %>
-
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <!-- <span id="closeModal" class="close">&times;</span> -->
-      <div class="video-container">
-        <video id="modalVideo" controls>
-          <source src="" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+    <div id="videoModal" class="modal">
+      <div class="modal-content">
+        <!-- <span id="closeModal" class="close">&times;</span> -->
+        <div class="video-container">
+          <video id="modalVideo" controls>
+            <source src="" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="sphere_body">
-    <span class="Sphere"></span>
-  </div>
+    <div class="sphere_body">
+      <span class="Sphere"></span>
+    </div>
 
-  <!-- The container for the videos information -->
-  <div>
-    <h2> Trending 🔥 </h2>
-    <div class="container">
-      <div class="items" id="trendingItems">
+    <!-- The container for the videos information -->
+    <div>
+      <h2>Trending 🔥</h2>
+      <div class="container">
+        <div class="items" id="trendingItems"></div>
       </div>
     </div>
-  </div>
 
-  <br><br>
+    <br /><br />
 
-  <div>
-    <h2> Sport ⚽️ </h2>
-    <div class="container">
-      <div class="items" id="sportItems">
-
+    <div>
+      <h2>Sport ⚽️</h2>
+      <div class="container">
+        <div class="items" id="sportItems"></div>
       </div>
     </div>
-  </div>
 
-  <br><br>
+    <br /><br />
 
-  <div>
-    <h2> Funny 😂 </h2>
-    <div class="container">
-      <div class="items" id="funnyItems">
-
+    <div>
+      <h2>Funny 😂</h2>
+      <div class="container">
+        <div class="items" id="funnyItems"></div>
       </div>
     </div>
-  </div>
 
-  <br><br>
+    <br /><br />
 
-  <div>
-    <h2> Political 🇺🇸 </h2>
-    <div class="container">
-      <div class="items" id="funnyItems">
-
+    <div>
+      <h2>Cat 🐱</h2>
+      <div class="container">
+        <div class="items" id="catItems"></div>
       </div>
     </div>
-  </div>
 
-  <footer>
-
-  </footer>
-
-</body>
-
+    <footer></footer>
+  </body>
 </html>

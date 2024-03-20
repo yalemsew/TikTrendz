@@ -2,6 +2,7 @@
   nav {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 80px;
     background-color: #181818;
     /* Darker nav bar */
@@ -10,23 +11,88 @@
   }
 
   .nav_items {
+    display: none;
+    margin: 10px;
+    /* Hide the nav items by default */
+  }
+
+  .nav_items.active {
     display: flex;
+    /* Show the nav items when active */
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background-color: #181818;
+    /* Darker nav bar */
+    padding: 10px 0;
   }
 
   .nav_items div {
     margin-right: 20px;
-    /* Space between nav items */
+    /* Add some margin between the items */
+    cursor: pointer;
+  }
+
+  .nav_items.active div {
+    margin-right: 0;
+    /* Reset margin for mobile layout */
     font-weight: bold;
+    padding: 10px 20px;
+    /* Add padding for mobile layout */
+    border-bottom: 1px solid #333;
+    /* Add border bottom for mobile layout */
+  }
+
+  .menu-toggle {
+    display: block; /* Show the menu toggle */
+    color: #fff;
+    cursor: pointer;
+  }
+  #sign-up a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  @media only screen and (min-width: 600px) {
+    /* Desktop styles */
+    .nav_items {
+      display: flex;
+    }
+
+    .menu-toggle {
+      display: none; /* Hide the menu toggle on desktop */
+    }
   }
 </style>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navItems = document.querySelector(".nav_items");
+
+    menuToggle.addEventListener("click", function () {
+      navItems.classList.toggle("active");
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 600) {
+        navItems.classList.remove("active");
+      }
+    });
+  });
+</script>
+
 <nav>
   <!-- <div class="nav_logo">
-      logo
-    </div> -->
+    logo
+  </div> -->
   <div class="nav_items">
-    <div>Home</div>
-    <div>About </div>
-    <div>Contact</div>
+    <div id="home">Home</div>
+    <div id="About">About</div>
+    <div id="Contact">Contact</div>
+    <div id="sign-up"><a href="signup.html">Sign-up</a></div>
   </div>
+  <div class="menu-toggle">&#9776; Menu</div>
 </nav>

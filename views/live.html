@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Stream Playback</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <video id="video" controls></video>
+    <script>
+        var video = document.getElementById('video');
+        var videoSrc = 'https://pull-hls-f16-tt01.tiktokcdn-us.com/stage/stream-3573582104258675632_sd/index.m3u8?expire=1712125278&sign=6e2d5ab0ab8931832cdbae55414cfd75';
+
+        if(Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                video.play();
+            });
+        }
+        // HLS.js is not supported on platforms like iOS, which have native support for HLS
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('canplay',function() {
+                video.play();
+            });
+        }
+    </script>
+</body>
+</html>
