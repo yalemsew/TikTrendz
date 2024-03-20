@@ -7,6 +7,7 @@
   <title>Live Chat Room</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
     body,
     html {
@@ -76,6 +77,7 @@
   </style>
   <script>
     $(() => {
+      // socket logic
       const socket = io('localhost');
       const roomId = 'liveStream1'
       socket.emit('joinRoom', roomId);
@@ -104,6 +106,27 @@
         $('#chatMessages').append(`<div><b>${msg.userName}</b>: ${msg.message}</div>`);
         $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
       });
+
+      // livestreaming logic
+      const urlParams = new URLSearchParams(window.location.search);
+      const hlsUrl = urlParams.get('hlsUrl');
+
+      const video = document.getElementById('streamVideo');
+
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(hlsUrl);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          video.play().catch(error => console.error('Video play failed', error));
+        });
+      }
+      else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = hlsUrl;
+        video.addEventListener('canplay', function() {
+          video.play().catch(error => console.error('Video play failed', error));
+        });
+      }
     })
   </script>
 </head>
