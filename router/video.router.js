@@ -7,7 +7,9 @@ module.exports = function (app, api) {
 
   app.get("/fetchSport", videoController.fetchSport(api));
 
-  app.get("/trending", videoController.getAllTrending);
+  app.get("/getVideos", videoController.getVideosByCategory);
+
+  // app.get("/sport", videoController.getAllSport);
 
   app.get("/", (req, res) => {
     res.render("mainpage");
