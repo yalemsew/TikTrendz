@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./css/video_model.css">
   <style>
     body {
       padding: 0;
@@ -145,19 +146,46 @@
       })
 
       // click video reflowCover event
+      // $(document).on('click', '.item', function() {
+      //   console.log("hello");
+      //   let playObj = {
+      //     cookie: $(this).attr('playCookie'),
+      //     playUrl: $(this).attr('playUrl'),
+      //   };
+
+      //   $.post("/play", playObj, (response) => {
+      //     if (response.redirectUrl) {
+      //       window.location.href = response.redirectUrl;
+      //     }
+      //   });
+
+      // });
+
+      // click video and play (modal)
       $(document).on('click', '.item', function() {
-        console.log("hello");
-        let playObj = {
+        let videoInfo = {
           cookie: $(this).attr('playCookie'),
           playUrl: $(this).attr('playUrl'),
         };
 
-        $.post("/play", playObj, (response) => {
-          if (response.redirectUrl) {
-            window.location.href = response.redirectUrl;
-          }
+        $.post("/play", videoInfo, () => {
+          $('#modalVideo source').attr('src', '/play');
+          $('#modalVideo')[0].load();
+
+          $('#videoModal').css('display', 'flex');
+        }).fail(() => {
+          console.error("Error: Unable to play video.");
         });
 
+      });
+
+      $(document).on('click', function(event) {
+        if ($(event.target).is('#videoModal')) {
+          $('#videoModal').css('display', 'none');
+          $('#modalVideo')[0].pause();
+          $('#modalVideo source').attr('src', "");
+          $('#modalVideo')[0].load();
+        }
       });
 
     })
@@ -165,9 +193,19 @@
 </head>
 
 <body>
-
-  <div id="navbar"></div>
   <%- include('./partial/navBar.html') %>
+
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <!-- <span id="closeModal" class="close">&times;</span> -->
+      <div class="video-container">
+        <video id="modalVideo" controls>
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
 
   <div class="sphere_body">
     <span class="Sphere"></span>
@@ -178,7 +216,6 @@
     <h2> Trending 🔥 </h2>
     <div class="container">
       <div class="items" id="trendingItems">
-
       </div>
     </div>
   </div>
@@ -186,10 +223,53 @@
   <br><br>
 
   <div>
-    <h2> Trending 🔥 </h2>
+    <h2> Sport ⚽️ </h2>
     <div class="container">
-      <div class="items" id="trendingItems">
+      <div class="items" id="sportItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+  </div>
 
+  <br><br>
+
+  <div>
+    <h2> Funny 😂 </h2>
+    <div class="container">
+      <div class="items" id="funnyItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+
+  <div>
+    <h2> Political 🇺🇸 </h2>
+    <div class="container">
+      <div class="items" id="funnyItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
       </div>
     </div>
   </div>

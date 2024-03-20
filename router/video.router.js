@@ -17,31 +17,6 @@ module.exports = function (app, api) {
     res.json({ redirectUrl: "/play" });
   });
 
-  //   app.get("/play", async (req, res) => {
-  //     const playData = req.session.playData;
-  //     console.log("playData: " + playData);
-  //     const Cookie = playData.cookie;
-  //     const Origin = "https://www.tiktok.com";
-  //     const Referer = "https://www.tiktok.com/";
-  //     const playUrl = playData.playUrl;
-  //     try {
-  //       const response = await axios.get(playUrl, {
-  //         responseType: "stream",
-  //         headers: {
-  //           Cookie: Cookie,
-  //           Origin: Origin,
-  //           Referer: Referer,
-  //         },
-  //       });
-
-  //       response.data.pipe(res);
-  //     } catch (error) {
-  //       console.error("Error fetching video: ", error);
-  //       res.status(500).send("Failed to fetch video");
-  //     }
-  //   });
-  // };
-
   app.get("/play", async (req, res) => {
     if (!req.session.playData) {
       return res.status(400).send("No video data found in session");
