@@ -10,4 +10,12 @@ module.exports = function (app) {
   app.put("/user/:userId", userController.update);
 
   app.delete("/user/:userId", userController.delete);
+
+  app.get("/chat", (req, res) => {
+    res.render("chatRoom");
+  });
+
+  app.get("/admin", (req, res) => {
+    res.render("adminPage");
+  });
 };

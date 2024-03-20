@@ -3,19 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define sub-schema for cover images
 const ImageSchema = new Schema({
-  avgColor: String,
-  uri: String,
   urlList: [String],
-});
-
-// Define sub-schema for stream URLs
-const StreamUrlSchema = new Schema({
-  flv: {
-    HD1: String,
-    SD1: String,
-    SD2: String,
-  },
-  rtmp: String,
 });
 
 // Define sub-schema for author information
@@ -34,11 +22,12 @@ const AuthorSchema = new Schema({
 
 // Main live stream schema
 const LiveStreamSchema = new Schema({
-  liveStreamId: { type: String, required: true, unique: true },
+  liveStreamId: { type: String },
   title: String,
   cover: ImageSchema,
-  streamUrls: StreamUrlSchema,
+  streamUrl: String,
   author: AuthorSchema,
+  category: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
