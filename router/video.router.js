@@ -6,6 +6,8 @@ module.exports = function (app, api) {
   app.get("/fetch", videoController.fetch(api));
 
   app.get("/getVideos", videoController.getVideosByCategory);
+  app.get("/getVideoslist", videoController.getAllTrending2);
+
 
   app.get("/", (req, res) => {
     res.render("mainpage");
@@ -128,4 +130,8 @@ module.exports = function (app, api) {
           return res.status(500).json({ error: "Error getting trending videos" });
         });
     });
+
+    app.get("/videolist", (req,res)=>{
+      res.render("videolist");
+    })
 };
