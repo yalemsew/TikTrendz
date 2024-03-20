@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./css/video_model.css">
   <style>
     body {
       padding: 0;
@@ -59,7 +60,6 @@
       display: none;
     }
 
-
     .scrollButton:hover {
       opacity: 0.4;
     }
@@ -94,21 +94,6 @@
   <script type="text/javascript">
     // create hashtag wordcloud
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('scrollButton1').addEventListener('click', function() {
-        document.getElementById('items1').scrollLeft -= 1000;
-        console.log("heyy")
-      });
-      document.getElementById('scrollButton2').addEventListener('click', function() {
-        document.getElementById('items1').scrollLeft += 1000;
-        console.log("heyy")
-      });
-
-      document.getElementById('scrollButton3').addEventListener('click', function() {
-        document.getElementById('items2').scrollLeft -= 1000;
-      });
-      document.getElementById('scrollButton4').addEventListener('click', function() {
-        document.getElementById('items2').scrollLeft += 1000;
-      });
 
       const Texts = [
         'HTML', 'CSS', 'JAVASCRIPT',
@@ -142,7 +127,6 @@
 
     });
 
-
     $(() => {
       // hashtag click event
       let rootEl = document.querySelector('.tagcloud');
@@ -162,21 +146,46 @@
       })
 
       // click video reflowCover event
+      // $(document).on('click', '.item', function() {
+      //   console.log("hello");
+      //   let playObj = {
+      //     cookie: $(this).attr('playCookie'),
+      //     playUrl: $(this).attr('playUrl'),
+      //   };
+
+      //   $.post("/play", playObj, (response) => {
+      //     if (response.redirectUrl) {
+      //       window.location.href = response.redirectUrl;
+      //     }
+      //   });
+
+      // });
+
+      // click video and play (modal)
       $(document).on('click', '.item', function() {
-        console.log("hello");
-        let playObj = {
+        let videoInfo = {
           cookie: $(this).attr('playCookie'),
           playUrl: $(this).attr('playUrl'),
         };
 
-        $.post("/play", playObj, (response) => {
-          if (response.redirectUrl) {
-            window.location.href = response.redirectUrl;
-          }
+        $.post("/play", videoInfo, () => {
+          $('#modalVideo source').attr('src', '/play');
+          $('#modalVideo')[0].load();
+
+          $('#videoModal').css('display', 'flex');
+        }).fail(() => {
+          console.error("Error: Unable to play video.");
         });
 
-        // localStorage.setItem('playData', JSON.stringify(playObj));
-        // window.location.href = "/play";
+      });
+
+      $(document).on('click', function(event) {
+        if ($(event.target).is('#videoModal')) {
+          $('#videoModal').css('display', 'none');
+          $('#modalVideo')[0].pause();
+          $('#modalVideo source').attr('src', "");
+          $('#modalVideo')[0].load();
+        }
       });
 
     })
@@ -184,9 +193,19 @@
 </head>
 
 <body>
-
-  <div id="navbar"></div>
   <%- include('./partial/navBar.html') %>
+
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <!-- <span id="closeModal" class="close">&times;</span> -->
+      <div class="video-container">
+        <video id="modalVideo" controls>
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
 
   <div class="sphere_body">
     <span class="Sphere"></span>
@@ -196,62 +215,63 @@
   <div>
     <h2> Trending 🔥 </h2>
     <div class="container">
-      <button class="scrollButton prev" id="scrollButton1">&#10094;</button>
       <div class="items" id="trendingItems">
-
       </div>
-      <button class="scrollButton next" id="scrollButton2">&#10095;</button>
     </div>
   </div>
 
   <br><br>
 
-  <h2> Sports ⚽️ </h2>
-  <div class="container">
-    <button class="scrollButton prev" id="scrollButton3">&#10094;</button>
-    <div class="items" id="items2">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
+  <div>
+    <h2> Sport ⚽️ </h2>
+    <div class="container">
+      <div class="items" id="sportItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
     </div>
-    <button class="scrollButton next" id="scrollButton4">&#10095;</button>
   </div>
 
-  <h2> Funny 😂 </h2>
-  <div class="container">
-    <button class="scrollButton prev" id="scrollButton3">&#10094;</button>
-    <div class="items" id="items2">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
+  <br><br>
+
+  <div>
+    <h2> Funny 😂 </h2>
+    <div class="container">
+      <div class="items" id="funnyItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
     </div>
-    <button class="scrollButton next" id="scrollButton4">&#10095;</button>
+  </div>
+
+  <br><br>
+
+  <div>
+    <h2> Political 🇺🇸 </h2>
+    <div class="container">
+      <div class="items" id="funnyItems">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
   </div>
 
   <footer>
