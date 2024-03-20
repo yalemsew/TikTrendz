@@ -44,4 +44,44 @@ module.exports = function (app, api) {
       res.status(500).send("Failed to stream video");
     }
   });
+
+  //index2 will be reroute from the main once the cloud word is clicked
+  // app.get("/index2", (req, res) => {
+  //   const hashtag = req.query.item;
+  //   videoController
+  //     .getAllTrending()
+  //     .then((trendingVideos) => {
+  //       if (!trendingVideos) {
+  //         return res.status(404).json({ error: "Trending videos not found" });
+  //       }
+
+  //       let filteredData = filterByHashtag(trendingVideos, hashtag);
+
+  //       const hashtags = filteredData.map((video) => {
+  //         return {
+  //           id: video.id,
+  //           desc: video.desc,
+  //           likes: video.likes,
+  //         };
+  //       });
+
+  //       console.log(hashtags);
+  //       return res.render("_hashTag", hashtags); //rendering the page with the filtered data
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       return res.status(500).json({ error: "Error getting trending videos" });
+  //     });
+
+  //   //function for filtering videos by hashtag
+
+  //   function filterByHashtag(data, hashtag) {
+  //     return data.filter((item) => {
+  //       const hashtags = item.desc
+  //         .split(" ")
+  //         .filter((tag) => tag.startsWith("#"));
+  //       return hashtags.includes(`#${hashtag}`);
+  //     });
+  //   }
+  // });
 };
