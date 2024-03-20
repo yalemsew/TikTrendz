@@ -12,6 +12,6 @@ module.exports = function (app) {
   app.delete("/user/:userId", userController.delete);
 
   app.get("/chat", (req, res) => {
-    res.render("chat");
+    res.render("chatRoom");
   });
 };

@@ -221,30 +221,32 @@
         }
       });
 
-      // click live and play (modal)
+      // click live and play (jump & modal)
       $(document).on("click", ".live-item", function() {
+        const liveId = $(this).attr("data-liveid");
+        const hlsUrl = $(this).attr("data-hlsurl");
+        window.location.href = `/chatroom.html?liveId=${encodeURIComponent(liveId)}&hlsUrl=${encodeURIComponent(hlsUrl)}`;
+        // let hlsUrl = $(this).attr("data-hlsurl")
+        // // check hls support
+        // let video = document.getElementById('modalVideo');
+        // if (Hls.isSupported()) {
+        //   let hls = new Hls();
+        //   hls.loadSource(hlsUrl);
+        //   hls.attachMedia(video);
+        //   hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        //     video.play();
+        //   });
+        // }
+        // // can play
+        // else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        //   video.src = hlsUrl;
+        //   video.addEventListener('canplay', function() {
+        //     video.play();
+        //   });
+        // }
 
-        let hlsUrl = $(this).attr("data-hlsurl")
-        // check hls support
-        let video = document.getElementById('modalVideo');
-        if (Hls.isSupported()) {
-          let hls = new Hls();
-          hls.loadSource(hlsUrl);
-          hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play();
-          });
-        }
-        // can play
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = hlsUrl;
-          video.addEventListener('canplay', function() {
-            video.play();
-          });
-        }
-
-        // show
-        $("#videoModal").css("display", "flex");
+        // // show
+        // $("#videoModal").css("display", "flex");
       });
 
       $(document).on("click", function(event) {
@@ -301,10 +303,12 @@
         // console.log(live.cover.urlList[0])
         // console.log(live.title)
         let streamJson = JSON.parse(live.streamUrl);
+        let liveId = live.liveStreamId;
         let originHls = streamJson.data.origin.main.hls;
-        console.log(originHls)
+        console.log(live)
+        // console.log(originHls)
         const liveContent = `
-      <div class="live-item" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
+      <div class="live-item" data-liveid="${liveId}" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
         <div class="item-prop1">${live.title}</div>
       </div>
     `;
