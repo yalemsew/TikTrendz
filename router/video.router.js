@@ -10,6 +10,9 @@ module.exports = function (app, api) {
 
 
   app.get("/", (req, res) => {
+    res.render("firstpage");
+  });
+  app.get("/mainpage", (req, res) => {
     res.render("mainpage");
   });
 

@@ -6,17 +6,19 @@
     <title>Document</title>
 </head>
 <style>
-
-body {
-        padding: 0;
+    body {
+        padding: 0px;
+        margin: 0px;
+    }
+        .top {
+        background-image: url("./images.png");
+        background-repeat: no-repeat;
+        background-size: cover;
         margin: 0;
-        background-color: #141414;
-        /* Dark background */
-        color: #fff;
-        /* Light text */
-        font-family: "Arial", sans-serif;
-        /* Modern font */
-      }
+        padding: 0;
+        font-family: Arial, sans-serif; /* Optional: Set a modern font */
+        color: #fff; /* Optional: Set text color to white for contrast */
+        }
 
       .container {
         display: flex;
@@ -155,32 +157,17 @@ body {
                                     }).then(data => {
                                         const { person } = data;
                                         console.log(person);
-     
+
+                                        let htmlContent = '';
                                         person.forEach(video => {
-                                            $(".videocontainer").append(` 
+                                            htmlContent += ` 
                                                 
-                                                <div class="item" playCookie="${video.videoLinkHeaders.Cookie}" playUrl="${video.downloadAddr}" style="background-image: url('${video.reflowCover}');"'>
+                                                <div class="item" style="background-image: url('${video.reflowCover}');"'>
                                                     
                                                 </div>
-                                            `);
+                                            `;
                                         });
-
-                                        $(document).on("click", ".item", function () {
-                                            let videoInfo = {
-                                                cookie: $(this).attr("playCookie"),
-                                                playUrl: $(this).attr("playUrl"),
-                                            };
-
-                                            $.post("/play", videoInfo, () => {
-                                                $("#modalVideo source").attr("src", "/play");
-                                                $("#modalVideo")[0].load();
-
-                                                $("#videoModal").css("display", "flex");
-                                            }).fail(() => {
-                                                console.error("Error: Unable to play video.");
-                                            });
-                                            });
-                                       
+                                        $(".videocontainer").html(htmlContent);
                                     }).catch(error => {
                                         console.error(error);
                                     });
@@ -197,11 +184,13 @@ body {
 
 
     <body>
-    <%- include('./partial/navBar.html') %>
-  
-    <div class="sphere_body">
-      <span class="ClickableWord"></span>
-    </div>
+    <div class="top">
+             <%- include('./partial/navBar.html') %>
+        
+            <div class="sphere_body">
+                <span class="ClickableWord"></span>
+            </div>
+    </div>>
   
     <div class="videocontainer">
         <h2></h2>

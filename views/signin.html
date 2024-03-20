@@ -103,7 +103,7 @@
   <body>
     <div class="container">
       <h2>Sign In For X</h2>
-      <form id="loginForm" action="/login" method="post">
+      <form id="loginForm" action="/mainpage" method="get">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required />
         <label for="password">Password:</label>
@@ -118,26 +118,26 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $(document).ready(function () {
-        $("#loginForm").submit(function (e) {
-          e.preventDefault();
+      // $(document).ready(function () {
+      //   $("#loginForm").submit(function (e) {
+      //     e.preventDefault();
 
-          var formData = $(this).serialize();
-          $.ajax({
-            type: "POST",
-            url: "your-server-endpoint-url",
-            data: formData,
-            success: function (response) {
-              // Handle successful response
-              window.location.href = "dashboard.html";
-            },
-            error: function (xhr, status, error) {
-              // Handle error response
-              $("#errorText").text("Incorrect email or password.");
-            },
-          });
-        });
-      });
+      //     var formData = $(this).serialize();
+      //     $.ajax({
+      //       type: "POST",
+      //       url: "your-server-endpoint-url",
+      //       data: formData,
+      //       success: function (response) {
+      //         // Handle successful response
+      //         window.location.href = "dashboard.html";
+      //       },
+      //       error: function (xhr, status, error) {
+      //         // Handle error response
+      //         $("#errorText").text("Incorrect email or password.");
+      //       },
+      //     });
+      //   });
+      // });
     </script>
   </body>
 </html>
