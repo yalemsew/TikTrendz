@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
 const path = require("path");
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
@@ -7,8 +9,11 @@ const TikAPI = require("tikapi").default;
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 const session = require("express-session");
+const chatController = require("./controller/chatroom.controller");
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
 // Middleware
 app.use(cors());
@@ -38,6 +43,39 @@ mongoose
   .then(() => console.log("MongoDB connected..."))
   .catch((err) => console.log("Error: " + err));
 
+// MongoDB Error Listener
+mongoose.connection.on(
+  "error",
+  console.error.bind(console, "MongoDB connection error:")
+);
+
+// chatroom io
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("joinRoom", (roomId) => {
+    socket.join(roomId);
+    console.log(`User joined room: ${roomId}`);
+  });
+
+  socket.on("sendMessage", async ({ roomId, userName, message }) => {
+    try {
+      const savedMessage = await chatController.sendMessage({
+        roomId,
+        userName,
+        message,
+      });
+      io.to(roomId).emit("receiveMessage", savedMessage);
+    } catch (err) {
+      console.error("Error processing message: ", err);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
 // Check DB Connection
 sequelize
   .authenticate()
@@ -49,7 +87,7 @@ const api = TikAPI(process.env.TIKAPI_KEY);
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 

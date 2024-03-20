@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Style Chat Room</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #141414;
+      color: #fff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .chat-room-container {
+      display: flex;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .video-container {
+      flex-grow: 1;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+    }
+
+    .chat-container {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background-color: #222;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    .chat-input,
+    .send-button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .chat-input {
+      flex-grow: 1;
+      margin-right: 10px;
+      background-color: #333;
+      border: none;
+      color: #fff;
+    }
+
+    .send-button {
+      background-color: #e50914;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .send-button:hover {
+      opacity: 0.8;
+    }
+  </style>
+  <script>
+    $(() => {
+      const socket = io('localhost'); 
+
+      socket.emit('joinRoom', 'liveStream1');
+
+      $('#sendButton').click(function() {
+        console.log("hello")
+        const message = $('#chatInput').val();
+        if (message.trim() === '') return;
+        socket.emit('sendMessage', {
+          roomId: 'liveStream1',
+          userName: 'user1',
+          message: message
+        });
+        $('#chatInput').val('');
+      });
+
+      socket.on('receiveMessage', (msg) => {
+        $('#chatMessages').append(`<div><b>${msg.userName}</b>: ${msg.message}</div>`);
+        $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+      });
+    })
+  </script>
+</head>
+
+<body>
+  <div class="chat-room-container">
+    <div class="video-container">
+      <video id="streamVideo" controls>
+        <source src="movie.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="chat-container">
+      <div id="chatMessages" class="chat-messages"></div>
+      <input type="text" id="chatInput" placeholder="Type a message..." class="chat-input">
+      <button id="sendButton" class="send-button">Send</button>
+    </div>
+  </div>
+</body>
+
+</html>
