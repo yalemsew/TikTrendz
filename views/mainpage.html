@@ -142,23 +142,43 @@
         category: 'trending',
         count: 10
       }
-      // let category = 'trending';
       $.get("/getVideos", request, (data) => {
-        // console.log(data)
         data.forEach((item) => {
           $("#trendingItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
         })
       })
 
+      // load sport data
       request = {
         category: 'sport',
         count: 10
       }
-      // load sport data
+      $.get("/getVideos", request, (data) => {
+        data.forEach((item) => {
+          $("#sportItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
+        })
+      })
+
+      // load funny data
+      request = {
+        category: 'funny',
+        count: 10
+      }
+      $.get("/getVideos", request, (data) => {
+        data.forEach((item) => {
+          $("#funnyItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
+        })
+      })
+
+      // load cat data
+      request = {
+        category: 'cat',
+        count: 10
+      }
       $.get("/getVideos", request, (data) => {
         // console.log(data)
         data.forEach((item) => {
-          $("#sportItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
+          $("#catItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
         })
       })
 
@@ -262,9 +282,9 @@
   <br><br>
 
   <div>
-    <h2> Political 🇺🇸 </h2>
+    <h2> Cat 🐱 </h2>
     <div class="container">
-      <div class="items" id="funnyItems">
+      <div class="items" id="catItems">
 
       </div>
     </div>
