@@ -14,4 +14,8 @@ module.exports = function (app) {
   app.get("/chat", (req, res) => {
     res.render("chatRoom");
   });
+
+  app.get("/admin", (req, res) => {
+    res.render("adminPage");
+  });
 };
