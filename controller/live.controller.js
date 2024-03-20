@@ -44,7 +44,7 @@ exports.fetch = (api) => (req, res) => {
       let liveStreams = [];
       let header = {};
       header = response.json["$other"].videoLinkHeaders;
-    //   console.log(response.json);
+      //   console.log(response.json);
 
       if (Array.isArray(response.json.data)) {
         response.json.data.forEach((item) => {
@@ -54,16 +54,16 @@ exports.fetch = (api) => (req, res) => {
         });
       }
 
-        // Save the new livestreams to the database
-        Live.insertMany(liveStreams)
-          .then((docs) => {
-            console.log(
-              docs.length + " " + category + " livestreams saved successfully!"
-            );
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+      // Save the new livestreams to the database
+      Live.insertMany(liveStreams)
+        .then((docs) => {
+          console.log(
+            docs.length + " " + category + " livestreams saved successfully!"
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (err) {
       console.log(err?.statusCode, err?.message, err?.json);
     }
@@ -74,4 +74,21 @@ exports.fetch = (api) => (req, res) => {
   // outdoor
 };
 
-exports.getLivesByCategory = function (req, res) {};
+exports.getLivesByCategory = function (req, res) {
+  let category = req.query.category;
+  let count = parseInt(req.query.count, 10) || 10;
+
+  if (!category) {
+    return res.status(400).json({ error: "Category is required" });
+  }
+
+  Live.find({ category: category })
+    .limit(count)
+    .then((livestreams) => {
+      res.json(livestreams);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    });
+};
