@@ -194,3 +194,18 @@ exports.getVideosByCategory = function (req, res) {
       res.status(500).json({ error: "server error" });
     });
 };
+
+exports.getAllTrending2 = function () {
+  return Video.find({}).exec()
+    .then((trendingVideos) => {
+      if (!trendingVideos) {
+        return Promise.reject(new Error("Trending videos not found"));
+      }
+
+      return trendingVideos;
+    })
+    .catch((err) => {
+      console.error(err);
+      return Promise.reject(new Error("Error getting trending videos"));
+    });
+  };
