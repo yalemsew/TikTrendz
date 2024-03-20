@@ -38,8 +38,6 @@ function createVideoObj(item, category) {
   return videoObj;
 }
 
-let header = {};
-
 exports.fetch = (api) => (req, res) => {
   // fetch trending
   api.public
@@ -49,6 +47,7 @@ exports.fetch = (api) => (req, res) => {
     })
     .then((response) => {
       let videos = [];
+      let header = {};
       header = response.json.$other.videoLinkHeaders;
       if (Array.isArray(response.json.itemList)) {
         response.json.itemList.forEach((item) => {
@@ -81,6 +80,8 @@ exports.fetch = (api) => (req, res) => {
     .then((response) => {
       // res.json(response.json);
       let videos = [];
+      let header = {};
+      header = response.json?.$other?.videoLinkHeaders;
       if (Array.isArray(response.json.item_list)) {
         console.log("sport list length: " + response.json.item_list.length);
         response.json.item_list.forEach((item) => {
@@ -105,11 +106,6 @@ exports.fetch = (api) => (req, res) => {
       console.log(err?.statusCode, err?.message, err?.json);
     });
 };
-
-exports.fetchSport = (api) =>
-  function (req, res) {
-    // fetch sport
-  };
 
 exports.getVideosByCategory = function (req, res) {
   let category = req.query.category;

@@ -5,11 +5,7 @@ module.exports = function (app, api) {
   // get latest videos from tiktok and save to db
   app.get("/fetch", videoController.fetch(api));
 
-  app.get("/fetchSport", videoController.fetchSport(api));
-
   app.get("/getVideos", videoController.getVideosByCategory);
-
-  // app.get("/sport", videoController.getAllSport);
 
   app.get("/", (req, res) => {
     res.render("mainpage");
