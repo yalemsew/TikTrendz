@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix Style Chat Room</title>
+  <title>Live Chat Room</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
@@ -76,9 +76,10 @@
   </style>
   <script>
     $(() => {
-      const socket = io('localhost'); 
-
-      socket.emit('joinRoom', 'liveStream1');
+      const socket = io('localhost');
+      const roomId = 'liveStream1'
+      socket.emit('joinRoom', roomId);
+      socket.emit('requestChatHistory', roomId);
 
       $('#sendButton').click(function() {
         console.log("hello")
@@ -90,6 +91,13 @@
           message: message
         });
         $('#chatInput').val('');
+      });
+
+      socket.on('chatHistory', (messages) => {
+        messages.forEach((msg) => {
+          $('#chatMessages').append(`<div><b>${msg.userName}</b>: ${msg.message}</div>`);
+        });
+        $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
       });
 
       socket.on('receiveMessage', (msg) => {

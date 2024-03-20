@@ -71,6 +71,16 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("requestChatHistory", async (roomId) => {
+    try {
+      console.log('history')
+      const messages = await chatController.getMessages(roomId);
+      socket.emit("chatHistory", messages); 
+    } catch (err) {
+      console.error("Error fetching chat history: ", err);
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
