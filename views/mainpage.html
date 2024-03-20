@@ -145,6 +145,14 @@
         })
       })
 
+      // load sport data
+      $.get("/sport", (data) => {
+        // console.log(data)
+        data.forEach((item) => {
+          $("#sportItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
+        })
+      })
+
       // click video reflowCover event
       // $(document).on('click', '.item', function() {
       //   console.log("hello");
