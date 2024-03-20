@@ -10,4 +10,8 @@ module.exports = function (app) {
   app.put("/user/:userId", userController.update);
 
   app.delete("/user/:userId", userController.delete);
+
+  app.get("/chat", (req, res) => {
+    res.render("chatRoom");
+  });
 };

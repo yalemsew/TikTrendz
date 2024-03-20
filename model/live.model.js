@@ -27,6 +27,7 @@ const LiveStreamSchema = new Schema({
   cover: ImageSchema,
   streamUrl: String,
   author: AuthorSchema,
+  category: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
