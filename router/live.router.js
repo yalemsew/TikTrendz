@@ -7,9 +7,4 @@ module.exports = function (app, api) {
 
   app.get("/getLives", liveController.getLivesByCategory);
 
-  app.get("/live", (req, res) => {
-    res.render("live");
-  });
-
-  
 };
