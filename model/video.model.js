@@ -44,6 +44,7 @@ const VideoSchema = new Schema({
   textExtra: [HashtagSchema],
   downloadAddr: String,
   reflowCover: String,
+  category: String,
 });
 
 module.exports = mongoose.model("Video", VideoSchema);

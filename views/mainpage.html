@@ -138,10 +138,27 @@
       });
 
       // load trending data
-      $.get("/trending", (data) => {
+      let request = {
+        category: 'trending',
+        count: 10
+      }
+      // let category = 'trending';
+      $.get("/getVideos", request, (data) => {
         // console.log(data)
         data.forEach((item) => {
           $("#trendingItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
+        })
+      })
+
+      request = {
+        category: 'sport',
+        count: 10
+      }
+      // load sport data
+      $.get("/getVideos", request, (data) => {
+        // console.log(data)
+        data.forEach((item) => {
+          $("#sportItems").append(`<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');"></div>`)
         })
       })
 
@@ -226,14 +243,7 @@
     <h2> Sport ⚽️ </h2>
     <div class="container">
       <div class="items" id="sportItems">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+
       </div>
     </div>
   </div>
@@ -244,14 +254,7 @@
     <h2> Funny 😂 </h2>
     <div class="container">
       <div class="items" id="funnyItems">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+
       </div>
     </div>
   </div>
@@ -262,14 +265,7 @@
     <h2> Political 🇺🇸 </h2>
     <div class="container">
       <div class="items" id="funnyItems">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+
       </div>
     </div>
   </div>
