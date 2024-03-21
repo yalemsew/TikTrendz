@@ -41,7 +41,7 @@
       }
 
       .container {
-        max-width: 400px;
+        max-width: 25%;
         margin: 50px auto;
         padding: 20px;
         border-radius: 20px;
@@ -58,6 +58,7 @@
       label {
         display: block;
         margin-bottom: 8px;
+        color: #b0bcc8; /* Text color for labels */
       }
 
       input[type="text"],
@@ -69,16 +70,18 @@
         border: 1px solid #ccc;
         border-radius: 3px;
         box-sizing: border-box;
+        background-color: #455566; /* Background color for input fields */
+        color: #fff; /* Text color for input fields */
       }
 
       button {
-        background-color: #455566;
-        color: #fff;
         cursor: pointer;
+        background-color: #1f9bff; /* Background color for the sign-in button */
+        color: #fff; /* Text color for the sign-in button */
       }
 
       button:hover {
-        background-color: #526f84;
+        background-color: #006aff; /* Hover background color for the sign-in button */
         animation-name: heartbeat;
         animation-duration: 0.5s;
         animation-iteration-count: 1;
@@ -87,22 +90,23 @@
       .sign-up {
         text-align: center;
         margin-top: 15px;
+        color: #b0bcc8; /* Text color for sign-up message */
       }
 
       .sign-up a:hover {
         border-radius: 5px;
-        color: #90a3b3;
+        color: #90a3b3; /* Hover text color for sign-up link */
       }
 
       .sign-up a {
-        color: #b0bcc8;
+        color: #b0bcc8; /* Text color for sign-up link */
         text-decoration: none;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Sign In For X</h2>
+      <h2>Sign In</h2>
       <form id="loginForm" action="/login" method="post">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required />
@@ -117,27 +121,6 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      // $(document).ready(function () {
-      //   $("#loginForm").submit(function (e) {
-      //     e.preventDefault();
-
-      //     var formData = $(this).serialize();
-      //     $.ajax({
-      //       type: "POST",
-      //       url: "your-server-endpoint-url",
-      //       data: formData,
-      //       success: function (response) {
-      //         // Handle successful response
-      //         window.location.href = "dashboard.html";
-      //       },
-      //       error: function (xhr, status, error) {
-      //         // Handle error response
-      //         $("#errorText").text("Incorrect email or password.");
-      //       },
-      //     });
-      //   });
-      // });
-    </script>
+    <script></script>
   </body>
 </html>

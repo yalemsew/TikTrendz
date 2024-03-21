@@ -15,6 +15,7 @@ const mongoose = require("mongoose");
 const ejs = require("ejs");
 const session = require("express-session");
 const chatController = require("./controller/chatroom.controller");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const server = http.createServer(app);
@@ -59,6 +60,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "./views")));
 app.set("view engine", "html");
 app.engine("html", ejs.renderFile);
+app.use(cookieParser());
 
 // Session
 app.use(

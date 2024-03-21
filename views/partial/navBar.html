@@ -1,77 +1,78 @@
 <style>
-  
-
   .nav_items {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     height: 90px;
     width: 100%;
-
-    background: linear-gradient(to bottom, #7c3131 0%, #000000 100%);
+    background: #141414;
+    transition: background-color 0.3s ease;
   }
 
   .nav_items.active {
     display: flex;
-    /* Show the nav items when active */
     flex-direction: column;
     position: absolute;
     top: 80px;
     left: 0;
     width: 100%;
     background-color: #181818;
-    /* Darker nav bar */
     padding: 10px 0;
   }
 
-  .nav_items div {
+  .nav_items div,
+  .nav_items div a {
     margin-right: 20px;
-    /* Add some margin between the items */
     cursor: pointer;
+    color: #ffffff;
+    font-size: 1.1em;
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .nav_items.active div {
-    margin-right: 0;
-    /* Reset margin for mobile layout */
-    font-weight: bold;
-    padding: 10px 20px;
-    /* Add padding for mobile layout */
-    border-bottom: 1px solid #333;
-    /* Add border bottom for mobile layout */
+  .nav_items div a {
+    text-decoration: none;
+  }
+
+  .nav_items div:hover,
+  .nav_items div a:hover {
+    color: #e50914;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
   }
 
   .menu-toggle {
-    display: block; /* Show the menu toggle */
+    display: block;
     color: #fff;
     cursor: pointer;
   }
-  #sign-up a {
+
+  #log-out a {
     color: #ffffff;
     text-decoration: none;
   }
 
   @media only screen and (min-width: 600px) {
-    /* Desktop styles */
     .nav_items {
       display: flex;
     }
 
     .menu-toggle {
-      display: none; /* Hide the menu toggle on desktop */
+      display: none;
     }
   }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const menuToggle = document.querySelector(".menu-toggle");
     const navItems = document.querySelector(".nav_items");
 
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener("click", function() {
       navItems.classList.toggle("active");
     });
 
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", function() {
       if (window.innerWidth >= 600) {
         navItems.classList.remove("active");
       }
@@ -84,11 +85,11 @@
     logo
   </div> -->
   <div class="nav_items">
-    <div id="Home">Home</div>
+    <div id="Home"><a href="/mainpage">Home</a></div>
     <div id="About">About</div>
     <div id="Contact">Contact</div>
-    <div id="sign-up"><a href="signup.html">Sign-up</a></div>
     <div id="Live">Live</div>
+    <div id="log-out"><a href="/logout">Logout</a></div>
   </div>
   <div class="menu-toggle">&#9776; Menu</div>
 </nav>

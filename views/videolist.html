@@ -1,203 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <style>
-    body {
-        padding: 0px;
-        margin: 0px;
-    }
-        .top {
-        background-image: url("./images.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif; /* Optional: Set a modern font */
-        color: #fff; /* Optional: Set text color to white for contrast */
-        }
+  body {
+    padding: 0px;
+    margin: 0px;
+  }
 
-      .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 20px;
-        width: 90%;
-        margin: auto;
-        /* Add margin at the top for spacing */
-      }
+  .top {
+    background-image: url("./images.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    /* Optional: Set a modern font */
+    color: #fff;
+    /* Optional: Set text color to white for contrast */
+  }
 
-      .items {
-        display: flex;
-        flex-direction: column; 
-       /* Display items vertically */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 90%;
+    margin: auto;
     /* Add margin at the top for spacing */
-}
-      .item-prop1 {
-        color: white;
-        font-size: 12px;
-        font-family: cursive;
-        margin: 10px;
-      }
-      .item_prop {
-        position: relative;
-        left: 40%;
-        top: 50%;
-      }
+  }
 
-      .item {
-        flex: 0 0 auto;
-        width: 171px;
-        height: 305px;
-        background-color: #333;
-        margin: 10px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-      }
+  .items {
+    display: flex;
+    flex-direction: column;
+    /* Display items vertically */
+    /* Add margin at the top for spacing */
+  }
 
+  .item-prop1 {
+    color: white;
+    font-size: 12px;
+    font-family: cursive;
+    margin: 10px;
+  }
 
-      .item:hover {
-        transform: scale(1.15);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      }
+  .item_prop {
+    position: relative;
+    left: 40%;
+    top: 50%;
+  }
 
-      .scrollButton {
-        display: none;
-      }
-
-      .scrollButton:hover {
-        opacity: 0.4;
-      }
+  .item {
+    flex: 0 0 auto;
+    width: 171px;
+    height: 305px;
+    background-color: #333;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
 
 
-     /* Css of sphere element --------------------------------------------------- */
-     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  .item:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .scrollButton {
+    display: none;
+  }
+
+  .scrollButton:hover {
+    opacity: 0.4;
+  }
 
 
-            /* Applying CSS to sphere */
-            .tagcloud {
-            display: inline-block;
-            top: 0px;
-            left: 32%;
-            font-weight: bold;
-            letter-spacing: 1px;
-            font-family: 'Bebas Neue', cursive;
-            font-size: 20px;
-            }
+  /* Css of sphere element --------------------------------------------------- */
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-            /* Change color of each text in sphere on hover   */
-            .tagcloud--item:hover {
-            color: #FFC300 ;
-            }
 
-            .sphere_body {
-            height: 500px;
-            }
+  /* Applying CSS to sphere */
+  .tagcloud {
+    display: inline-block;
+    top: 0px;
+    left: 32%;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+  }
 
-            .sphere_body span:hover{
-                color: #FFC300;
-            }
-            /* *********************sphere  css  end  *******************************************/
+  /* Change color of each text in sphere on hover   */
+  .tagcloud--item:hover {
+    color: #FFC300;
+    cursor: pointer;
+  }
 
-            .videocontainer{
-                display: flex;
-                flex-wrap: wrap;
-                width: 90%;
-                margin: auto;
-                border: 1px solid red;
-            }
+  .sphere_body {
+    height: 500px;
+  }
+
+  .sphere_body span:hover {
+    color: #FFC300;
+  }
+
+  /* *********************sphere  css  end  *******************************************/
+
+  .videocontainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+  }
+
+  .hashtext {
+    text-align: center;
+  }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
-    <script type="text/javascript">
+<script type="text/javascript">
+  $(document).ready(function() {
 
-        $(document).ready(function (){
 
-                
 
-                // ***********************fetch data from the wordcloud and display it in the sphere ************************
-                fetch("http://localhost:80/wordcloud")
-                    .then(response => response.json())
-                    .then(data => {
-                        var tagCloud = TagCloud('.sphere_body', data, {
-                            radius: 230,
-                            maxSpeed: 'normal',
-                            initSpeed: 'fast',
-                            direction: 135,
-                            keep: true
-                        });
+    // ***********************fetch data from the wordcloud and display it in the sphere ************************
+    fetch("http://localhost:80/wordcloud")
+      .then(response => response.json())
+      .then(data => {
+        var tagCloud = TagCloud('.sphere_body', data, {
+          radius: 230,
+          maxSpeed: 'normal',
+          initSpeed: 'fast',
+          direction: 135,
+          keep: true
+        });
 
-                        var color = '#FF5733';
-                        document.querySelectorAll('.sphere_body span').forEach(wordElement => {
-                            wordElement.style.color = color;
-                            
+        var color = '#ee1d52';
+        document.querySelectorAll('.sphere_body span').forEach(wordElement => {
+          wordElement.style.color = color;
 
-                            // Add click event listener to the word element
-                            wordElement.addEventListener('click', function() {
-                                var clickedWord = this.textContent;
-                                console.log('Clicked word: is this ', clickedWord);
-                                // Redirect to another page or handle the click event here
-                                //  window.location.href = 'https://example.com/?word=' + clickedWord;
+          var clickedWord;
+          // Add click event listener to the word element
+          wordElement.addEventListener('click', function() {
+            clickedWord = this.textContent;
+            console.log('Clicked word: is this ', clickedWord);
+            // Redirect to another page or handle the click event here
+            //  window.location.href = 'https://example.com/?word=' + clickedWord;
 
-                                fetch('/api/word', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ word: clickedWord })
-                                    }).then(response => {
-                                        if (response.ok) {
-                                            return response.json();
-                                        } else {
-                                            throw new Error('Failed to send clicked word to backend');
-                                        }
-                                    }).then(data => {
-                                        const { person } = data;
-                                        console.log(person);
+            fetch('/api/word', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                word: clickedWord
+              })
+            }).then(response => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error('Failed to send clicked word to backend');
+              }
+            }).then(data => {
+              const {
+                person
+              } = data;
+              console.log(person);
 
-                                        let htmlContent = '';
-                                        person.forEach(video => {
-                                            htmlContent += ` 
+              $(".hashtext").html(`<h1>#${clickedWord}</h1>`);
+              let htmlContent = '';
+              person.forEach(video => {
+                htmlContent += ` 
                                                 
                                                 <div class="item" style="background-image: url('${video.reflowCover}');"'>
                                                     
                                                 </div>
                                             `;
-                                        });
-                                        $(".videocontainer").html(htmlContent);
-                                    }).catch(error => {
-                                        console.error(error);
-                                    });
-
-                                    
-                            });
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error fetching data:", error);
-                    });
-            })
-        </script>
+              });
+              $(".videocontainer").html(htmlContent);
+            }).catch(error => {
+              console.error(error);
+            });
 
 
-    <body>
-    <div class="top">
-             <%- include('./partial/navBar.html') %>
-        
-            <div class="sphere_body">
-                <span class="ClickableWord"></span>
-            </div>
-    </div>>
-  
-    <div class="videocontainer">
-        <h2></h2>
-        <div class="container">
-          <div class="items" ></div>
-        </div>
+          });
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  })
+</script>
+
+
+<body>
+  <div class="top">
+    <%- include('./partial/navBar.html') -%>
+
+    <div class="sphere_body">
+      <span class="ClickableWord"></span>
     </div>
-    
+  </div>
+  <div class="hashtext"></div>
+
+  <div class="videocontainer">
+    <div class="container">
+      <div class="items"></div>
+    </div>
+  </div>
+  <%- include('./partial/_footer.html') %>
 </body>
+
 </html>

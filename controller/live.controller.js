@@ -79,16 +79,23 @@ exports.getLivesByCategory = function (req, res) {
   let count = parseInt(req.query.count, 10) || 10;
 
   if (!category) {
-    return res.status(400).json({ error: "Category is required" });
+    Live.find({})
+      .then((livestreams) => {
+        res.json(livestreams);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "server error" });
+      });
+  } else {
+    Live.find({ category: category })
+      .limit(count)
+      .then((livestreams) => {
+        res.json(livestreams);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "server error" });
+      });
   }
-
-  Live.find({ category: category })
-    .limit(count)
-    .then((livestreams) => {
-      res.json(livestreams);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ error: "server error" });
-    });
 };
