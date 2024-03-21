@@ -181,22 +181,30 @@ exports.getVideosByCategory = function (req, res) {
   let count = parseInt(req.query.count, 10) || 10;
 
   if (!category) {
-    return res.status(400).json({ error: "Category is required" });
+    Video.find({})
+      .then((videos) => {
+        res.json(videos);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "server error" });
+      });
+  } else {
+    Video.find({ category: category })
+      .limit(count)
+      .then((videos) => {
+        res.json(videos);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "server error" });
+      });
   }
-
-  Video.find({ category: category })
-    .limit(count)
-    .then((videos) => {
-      res.json(videos);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ error: "server error" });
-    });
 };
 
 exports.getAllTrending2 = function () {
-  return Video.find({}).exec()
+  return Video.find({})
+    .exec()
     .then((trendingVideos) => {
       if (!trendingVideos) {
         return Promise.reject(new Error("Trending videos not found"));
@@ -208,4 +216,4 @@ exports.getAllTrending2 = function () {
       console.error(err);
       return Promise.reject(new Error("Error getting trending videos"));
     });
-  };
+};

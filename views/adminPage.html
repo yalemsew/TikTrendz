@@ -147,20 +147,8 @@
   </template>
 
   <script>
-    const videos = [{
-        title: "Video 1",
-        likes: 100,
-        comments: 20,
-        favorites: 50,
-        views: 1000
-      },
-      {
-        title: "Video 2",
-        likes: 150,
-        comments: 30,
-        favorites: 60,
-        views: 1500
-      },
+    let videos = [
+
     ];
     const liveStreams = [{
         title: "Live Stream 1",
@@ -222,23 +210,68 @@
       }
     }
 
-    function renderVideos(videos) {
+    function renderVideos() {
       const listContainer = document.getElementById("videos-list");
-      listContainer.innerHTML = '';
+      listContainer.innerHTML = ''; 
+      console.log('before fetch');
 
-      videos.forEach(video => {
-        const item = document.createElement("div");
-        item.className = "list-item";
-        item.innerHTML = `
-      <div class="list-item-title">${video.title}</div>
-      <div>Likes: ${video.likes}</div>
-      <div>Comments: ${video.comments}</div>
-      <div>Favorites: ${video.favorites}</div>
-      <div>Views: ${video.views}</div>
-    `;
-        listContainer.appendChild(item);
-      });
+      fetch('/getVideos', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('fetch completed', data);
+          videos = [];
+
+          data.forEach(item => {
+            let video = {
+              title: item.desc,
+              likes: item.stats.diggCount,
+              comments: item.stats.commentCount,
+              favorites: item.stats.collectCount,
+              views: item.stats.playCount
+            };
+            videos.push(video);
+          });
+
+          videos.forEach(video => {
+            const item = document.createElement("div");
+            item.className = "list-item";
+            item.innerHTML = `
+        <div class="list-item-title">${video.title}</div>
+        <div>Likes: ${video.likes}</div>
+        <div>Comments: ${video.comments}</div>
+        <div>Favorites: ${video.favorites}</div>
+        <div>Views: ${video.views}</div>
+      `;
+            listContainer.appendChild(item);
+          });
+        })
+        .catch(error => console.error('There was a problem with your fetch operation:', error));
     }
+
+
+    // videos.forEach(video => {
+    //   const item = document.createElement("div");
+    //   item.className = "list-item";
+    //   item.innerHTML = `
+    //   <div class="list-item-title">${video.title}</div>
+    //   <div>Likes: ${video.likes}</div>
+    //   <div>Comments: ${video.comments}</div>
+    //   <div>Favorites: ${video.favorites}</div>
+    //   <div>Views: ${video.views}</div>
+    // `;
+    //   listContainer.appendChild(item);
+    // });
+
 
     function renderLiveStreams(liveStreams) {
       const listContainer = document.getElementById("live-stream-list");
