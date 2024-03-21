@@ -5,8 +5,10 @@
     align-items: center;
     height: 90px;
     width: 100%;
-    background: linear-gradient(to bottom, #ee1d52 0%, #4a00e0 100%);
-    /* TikTok gradient colors */
+    background: #141414;
+    /* 更加细腻的深色背景 */
+    transition: background-color 0.3s ease;
+    /* 背景颜色渐变动画 */
   }
 
   .nav_items.active {
@@ -17,19 +19,25 @@
     left: 0;
     width: 100%;
     background-color: #181818;
+    /* 暗色背景 */
     padding: 10px 0;
   }
 
   .nav_items div {
     margin-right: 20px;
     cursor: pointer;
+    color: #ffffff;
+    font-size: 1.1em;
+    /* 字体大小调整 */
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    /* 颜色、变形和阴影渐变动画 */
   }
 
-  .nav_items.active div {
-    margin-right: 0;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-bottom: 1px solid #333;
+  .nav_items div:hover {
+    color: #e50914;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
   }
 
   .menu-toggle {
@@ -38,7 +46,7 @@
     cursor: pointer;
   }
 
-  #sign-up a {
+  #log-out a {
     color: #ffffff;
     text-decoration: none;
   }
@@ -55,15 +63,15 @@
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const menuToggle = document.querySelector(".menu-toggle");
     const navItems = document.querySelector(".nav_items");
 
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener("click", function() {
       navItems.classList.toggle("active");
     });
 
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", function() {
       if (window.innerWidth >= 600) {
         navItems.classList.remove("active");
       }
@@ -79,8 +87,8 @@
     <div id="Home">Home</div>
     <div id="About">About</div>
     <div id="Contact">Contact</div>
-    <div id="sign-up"><a href="signup.html">Sign-up</a></div>
     <div id="Live">Live</div>
+    <div id="log-out"><a href="/logout">Logout</a></div>
   </div>
   <div class="menu-toggle">&#9776; Menu</div>
 </nav>
