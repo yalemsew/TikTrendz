@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/video_model.css" />
-    <style>
-      body {
-        padding: 0;
-        margin: 0;
-        background-color: #141414; /* Dark background */
-        color: #fff; /* Light text */
-        font-family: "Arial", sans-serif; /* Modern font */
-      }
 
-      .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        /* overflow-x: hidden; */
-        margin-top: 20px; /* Add margin at the top for spacing */
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/video_model.css" />
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #141414;
+      /* Dark background */
+      color: #fff;
+      /* Light text */
+      font-family: "Arial", sans-serif;
+      /* Modern font */
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* overflow-x: hidden; */
+      margin-top: 20px;
+      /* Add margin at the top for spacing */
+    }
 
     .items {
       display: flex;
@@ -30,59 +35,59 @@
       scroll-behavior: smooth;
     }
 
-      .item-prop1 {
-        color: white;
-        font-size: 12px;
-        font-family: cursive;
-        margin: 10px;
-      }
+    .item-prop1 {
+      color: white;
+      font-size: 12px;
+      font-family: cursive;
+      margin: 10px;
+    }
 
-      .item_prop {
-        position: relative;
-        left: 40%;
-        top: 50%;
-      }
+    .item_prop {
+      position: relative;
+      left: 40%;
+      top: 50%;
+    }
 
-      .item,
-      .live-item {
-        flex: 0 0 auto;
-        width: 171px;
-        height: 305px;
-        background-color: #333;
-        margin-right: 10px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-      }
+    .item,
+    .live-item {
+      flex: 0 0 auto;
+      width: 171px;
+      height: 305px;
+      background-color: #333;
+      margin-right: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
 
-      .item:hover,
-      .live-item:hover {
-        transform: scale(1.15);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      }
+    .item:hover,
+    .live-item:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
 
-      .scrollButton {
-        display: none;
-      }
+    .scrollButton {
+      display: none;
+    }
 
-      .scrollButton:hover {
-        opacity: 0.4;
-      }
+    .scrollButton:hover {
+      opacity: 0.4;
+    }
 
-      .tagcloud {
-        display: inline-block;
-        top: 0px;
-        left: 32%;
-        font-weight: bold;
-        letter-spacing: 1px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-      }
+    .tagcloud {
+      display: inline-block;
+      top: 0px;
+      left: 32%;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+    }
 
-      /* Change color of each text in sphere on hover   */
-      .tagcloud--item:hover {
-        color: red;
-        cursor: pointer;
-      }
+    /* Change color of each text in sphere on hover   */
+    .tagcloud--item:hover {
+      color: red;
+      cursor: pointer;
+    }
 
     .sphere_body {
       height: 70vh;
@@ -90,9 +95,10 @@
       bottom: 100px;
       left: 400px;
       width: 50%;
-      
+
     }
-    .watch{
+
+    .watch {
       position: relative;
       top: 200px;
       left: 140px;
@@ -100,292 +106,260 @@
       width: 300px;
     }
 
-  .watch span{
-    font-size: 50px;
-    color: red;
-  }
-  .watch a{
-    text-decoration: none;
-    font-size: 14pxpx;
-    color: white;
-  }
-  #arrow{
-    font-size: 35px;
-  }
+    .watch span {
+      font-size: 50px;
+      color: red;
+    }
+
+    .watch a {
+      text-decoration: none;
+      font-size: 14pxpx;
+      color: white;
+    }
+
+    #arrow {
+      font-size: 35px;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
-  
-  <script type="text/javascript">
-    
 
+  <script type="text/javascript">
     $(() => {
       fetch("http://localhost:80/wordcloud")
-                    .then(response => response.json())
-                    .then(data => {
-                        var tagCloud = TagCloud('.sphere_body', data, {
-                            radius: 230,
-                            maxSpeed: 'normal',
-                            initSpeed: 'fast',
-                            direction: 135,
-                            keep: true
-                        });
-
-                        var color = '#ee1d52';
-                        document.querySelectorAll('.sphere_body span').forEach(wordElement => {
-                            wordElement.style.color = color;
-                            
-                            var clickedWord;
-                            // Add click event listener to the word element
-                            wordElement.addEventListener('click', function() {
-                                clickedWord = this.textContent;
-                                console.log('Clicked word: is this ', clickedWord);
-                                // Redirect to another page or handle the click event here
-                                //  window.location.href = 'https://example.com/?word=' + clickedWord
-
-                                    
-                            });
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error fetching data:", error);
-                    });
-
-        function loadVideoData(category, count) {
-          $.get(
-            "/getVideos",
-            {
-              category: category,
-              count: count,
-            },
-            (data) => {
-              const containerId = `#${category}Items`; // Dynamically sets the container ID based on category
-              data.forEach((item) => {
-                $(containerId).append(
-                  `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
-            <%- include('./partial/_item_prop.html') %>
-         </div>`
-                );
-              });
-            }
-          );
-        }
-
-        // Load different categories of data
-        loadVideoData("trending", 20);
-        loadVideoData("sport", 10);
-        loadVideoData("funny", 10);
-        loadVideoData("cat", 10);
-
-        // click video reflowCover event
-        // $(document).on('click', '.item', function() {
-        //   console.log("hello");
-        //   let playObj = {
-        //     cookie: $(this).attr('playCookie'),
-        //     playUrl: $(this).attr('playUrl'),
-        //   };
-
-        //   $.post("/play", playObj, (response) => {
-        //     if (response.redirectUrl) {
-        //       window.location.href = response.redirectUrl;
-        //     }
-        //   });
-
-        // });
-
-        // click video and play (modal)
-        $(document).on("click", ".item", function () {
-          let videoInfo = {
-            cookie: $(this).attr("playCookie"),
-            playUrl: $(this).attr("playUrl"),
-          };
-
-          $.post("/play", videoInfo, () => {
-            $("#modalVideo source").attr("src", "/play");
-            $("#modalVideo")[0].load();
-
-            $("#videoModal").css("display", "flex");
-          }).fail(() => {
-            console.error("Error: Unable to play video.");
+        .then(response => response.json())
+        .then(data => {
+          var tagCloud = TagCloud('.sphere_body', data, {
+            radius: 230,
+            maxSpeed: 'normal',
+            initSpeed: 'fast',
+            direction: 135,
+            keep: true
           });
-        });
 
-        $(document).on("click", function (event) {
-          if ($(event.target).is("#videoModal")) {
-            $("#videoModal").css("display", "none");
-            $("#modalVideo")[0].pause();
-            $("#modalVideo source").attr("src", "");
-            $("#modalVideo")[0].load();
-          }
-        });
+          var color = '#ee1d52';
+          document.querySelectorAll('.sphere_body span').forEach(wordElement => {
+            wordElement.style.color = color;
 
-        // click live and play (jump & modal)
-        $(document).on("click", ".live-item", function () {
-          const liveId = $(this).attr("data-liveid");
-          const hlsUrl = $(this).attr("data-hlsurl");
-          window.location.href = `/chatroom.html?liveId=${encodeURIComponent(
-            liveId
-          )}&hlsUrl=${encodeURIComponent(hlsUrl)}`;
-          // let hlsUrl = $(this).attr("data-hlsurl")
-          // // check hls support
-          // let video = document.getElementById('modalVideo');
-          // if (Hls.isSupported()) {
-          //   let hls = new Hls();
-          //   hls.loadSource(hlsUrl);
-          //   hls.attachMedia(video);
-          //   hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          //     video.play();
-          //   });
-          // }
-          // // can play
-          // else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          //   video.src = hlsUrl;
-          //   video.addEventListener('canplay', function() {
-          //     video.play();
-          //   });
-          // }
+            var clickedWord;
+            // Add click event listener to the word element
+            wordElement.addEventListener('click', function() {
+              clickedWord = this.textContent;
+              console.log('Clicked word: is this ', clickedWord);
+              // Redirect to another page or handle the click event here
+              //  window.location.href = 'https://example.com/?word=' + clickedWord
 
-          // // show
-          // $("#videoModal").css("display", "flex");
-        });
 
-        $(document).on("click", function (event) {
-          if ($(event.target).is("#videoModal")) {
-            $("#videoModal").css("display", "none");
-            $("#modalVideo")[0].pause();
-            $("#modalVideo source").attr("src", "");
-            $("#modalVideo")[0].load();
-          }
-        });
-
-        // LiveStreaming
-        $(document).on("click", "#Live", function () {
-          // console.log("click")
-          const categories = ["game"];
-
-          categories.forEach((category) => {
-            $.ajax({
-              url: "/getLives",
-              type: "GET",
-              data: {
-                category: category,
-              },
-              success: function (data) {
-                // console.log(data)
-                updateLiveContent(category, data);
-              },
-              error: function (xhr, status, error) {
-                console.error("get livestreaming error: ", error);
-              },
             });
           });
+        })
+        .catch(error => {
+          console.error("Error fetching data:", error);
         });
 
-        // click home
-        $(document).on("click", "#Home", function () {
-          $("#liveStreamingContainer").css("display", "none");
-          $("#videosContainer").css("display", "");
+      function loadVideoData(category, count) {
+        $.get(
+          "/getVideos", {
+            category: category,
+            count: count,
+          },
+          (data) => {
+            const containerId = `#${category}Items`; // Dynamically sets the container ID based on category
+            data.forEach((item) => {
+              $(containerId).append(
+                `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+            <%- include('./partial/_item_prop.html') %>
+         </div>`
+              );
+            });
+          }
+        );
+      }
+
+      // Load different categories of data
+      loadVideoData("trending", 20);
+      loadVideoData("sport", 10);
+      loadVideoData("funny", 10);
+      loadVideoData("cat", 10);
+
+      // click video and play (modal)
+      $(document).on("click", ".item", function() {
+        let videoInfo = {
+          cookie: $(this).attr("playCookie"),
+          playUrl: $(this).attr("playUrl"),
+        };
+
+        $.post("/play", videoInfo, () => {
+          $("#modalVideo source").attr("src", "/play");
+          $("#modalVideo")[0].load();
+          $("#modalVideo")[0].play().catch(error => {
+            console.error("auto play error: ", error);
+            // plan B
+          });
+
+          $("#videoModal").css("display", "flex");
+        }).fail(() => {
+          console.error("Error: Unable to play video.");
         });
       });
 
-      function updateLiveContent(category, liveData) {
-        $("#videosContainer").css("display", "none");
-        $("#liveStreamingContainer").css("display", "");
+      $(document).on("click", function(event) {
+        if ($(event.target).is("#videoModal")) {
+          $("#videoModal").css("display", "none");
+          $("#modalVideo")[0].pause();
+          $("#modalVideo source").attr("src", "");
+          $("#modalVideo")[0].load();
+        }
+      });
 
-        const liveContainer = $("#liveStreamingItems");
-        liveContainer.html("");
+      // click live and play (jump & modal)
+      $(document).on("click", ".live-item", function() {
+        const liveId = $(this).attr("data-liveid");
+        const hlsUrl = $(this).attr("data-hlsurl");
+        window.location.href = `/chatroom.html?liveId=${encodeURIComponent(
+            liveId
+          )}&hlsUrl=${encodeURIComponent(hlsUrl)}`;
+      });
 
-        liveData.forEach(function (live) {
-          // console.log(live.cover.urlList[0])
-          // console.log(live.title)
-          let streamJson = JSON.parse(live.streamUrl);
-          let liveId = live.liveStreamId;
-          let originHls = streamJson.data.origin.main.hls;
-          console.log(live);
-          // console.log(originHls)
-          const liveContent = `
+      $(document).on("click", function(event) {
+        if ($(event.target).is("#videoModal")) {
+          $("#videoModal").css("display", "none");
+          $("#modalVideo")[0].pause();
+          $("#modalVideo source").attr("src", "");
+          $("#modalVideo")[0].load();
+          $("#modalVideo")[0].play().catch(e => console.error("auto play error: ", e));
+        }
+      });
+
+      // LiveStreaming
+      $(document).on("click", "#Live", function() {
+        // console.log("click")
+        const categories = ["game"];
+
+        categories.forEach((category) => {
+          $.ajax({
+            url: "/getLives",
+            type: "GET",
+            data: {
+              category: category,
+            },
+            success: function(data) {
+              // console.log(data)
+              updateLiveContent(category, data);
+            },
+            error: function(xhr, status, error) {
+              console.error("get livestreaming error: ", error);
+            },
+          });
+        });
+      });
+
+      // click home
+      $(document).on("click", "#Home", function() {
+        $("#liveStreamingContainer").css("display", "none");
+        $("#videosContainer").css("display", "");
+      });
+    });
+
+    function updateLiveContent(category, liveData) {
+      $("#videosContainer").css("display", "none");
+      $("#liveStreamingContainer").css("display", "");
+
+      const liveContainer = $("#liveStreamingItems");
+      liveContainer.html("");
+
+      liveData.forEach(function(live) {
+        // console.log(live.cover.urlList[0])
+        // console.log(live.title)
+        let streamJson = JSON.parse(live.streamUrl);
+        let liveId = live.liveStreamId;
+        let originHls = streamJson.data.origin.main.hls;
+        console.log(live);
+        // console.log(originHls)
+        const liveContent = `
       <div class="live-item" data-liveid="${liveId}" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
         <div class="item-prop1">${live.title}</div>
       </div>
     `;
-          liveContainer.append(liveContent);
-        });
+        liveContainer.append(liveContent);
+      });
 
-        liveContainer.parent().css("display", "block");
-      }
-    </script>
-  </head>
+      liveContainer.parent().css("display", "block");
+    }
+  </script>
+</head>
 
-  <body>
-    <%- include('./partial/navBar.html') %>
+<body>
+  <%- include('./partial/navBar.html') %>
 
-    <div id="videoModal" class="modal">
-      <div class="modal-content">
-        <!-- <span id="closeModal" class="close">&times;</span> -->
-        <div class="video-container">
-          <video id="modalVideo" controls>
-            <source src="" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <!-- <span id="closeModal" class="close">&times;</span> -->
+      <div class="video-container">
+        <video id="modalVideo">
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
+  </div>
 
-    <div class="watch">
-      <h1><span>Watch</span> <br>trending videos</h1>
-      <a href="/videolist">Click here to watch <span id="arrow"> &#8594;</span></a>
-    </div>
+  <div class="watch">
+    <h1><span>Watch</span> <br>trending videos</h1>
+    <a href="/videolist">Click here to watch <span id="arrow"> &#8594;</span></a>
+  </div>
 
   <div class="sphere_body">
     <span class="Sphere"></span>
   </div>
 
-    <!-- The container for the videos information -->
-    <!-- vidows container -->
-    <div id="videosContainer">
-      <div class="videos-row">
-        <h2>Trending 🔥</h2>
-        <div class="container">
-          <div class="items" id="trendingItems"></div>
-        </div>
-      </div>
-
-      <br /><br />
-
-      <div class="videos-row">
-        <h2>Sport ⚽️</h2>
-        <div class="container">
-          <div class="items" id="sportItems"></div>
-        </div>
-      </div>
-
-      <br /><br />
-
-      <div class="videos-row">
-        <h2>Funny 😂</h2>
-        <div class="container">
-          <div class="items" id="funnyItems"></div>
-        </div>
-      </div>
-
-      <br /><br />
-
-      <div class="videos-row">
-        <h2>Cat 🐱</h2>
-        <div class="container">
-          <div class="items" id="catItems"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- livestreaming container -->
-    <div class="lives-row" id="liveStreamingContainer" style="display: none">
-      <h2>Live Streaming 📡</h2>
+  <!-- The container for the videos information -->
+  <!-- vidows container -->
+  <div id="videosContainer">
+    <div class="videos-row">
+      <h2>Trending 🔥</h2>
       <div class="container">
-        <div class="items" id="liveStreamingItems"></div>
+        <div class="items" id="trendingItems"></div>
       </div>
     </div>
 
-    <%- include('./partial/_footer.html') %>
-  </body>
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Sport ⚽️</h2>
+      <div class="container">
+        <div class="items" id="sportItems"></div>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Funny 😂</h2>
+      <div class="container">
+        <div class="items" id="funnyItems"></div>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="videos-row">
+      <h2>Cat 🐱</h2>
+      <div class="container">
+        <div class="items" id="catItems"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- livestreaming container -->
+  <div class="lives-row" id="liveStreamingContainer" style="display: none">
+    <h2>Live Streaming 📡</h2>
+    <div class="container">
+      <div class="items" id="liveStreamingItems"></div>
+    </div>
+  </div>
+
+  <%- include('./partial/_footer.html') %>
+</body>
+
 </html>
