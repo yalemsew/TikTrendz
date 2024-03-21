@@ -261,10 +261,9 @@
 
     function renderLiveStreams() {
       const listContainer = document.getElementById("live-stream-list");
-      listContainer.innerHTML = ''; // 清空现有内容
+      listContainer.innerHTML = '';
       console.log('before fetch live streams');
 
-      // 发起获取直播流列表的请求
       fetch('/getLives', {
           method: 'GET',
           headers: {
@@ -279,11 +278,8 @@
         })
         .then(data => {
           console.log('fetch completed', data);
-          // 假设返回的data是直播流数组
-          // 清空liveStreams数组，避免重复
           liveStreams = [];
 
-          // 处理每个直播流项
           data.forEach(item => {
             let liveStream = {
               id: item.liveStreamId,
@@ -294,7 +290,6 @@
             liveStreams.push(liveStream);
           });
 
-          // 现在，liveStreams 数组已经被更新，接下来渲染直播流列表
           liveStreams.forEach(liveStream => {
             const item = document.createElement("div");
             item.className = "list-item";
@@ -302,7 +297,7 @@
         <div class="list-item-title">${liveStream.title}</div>
         <div>Id: ${liveStream.id}</div>
         <div>Category: ${liveStream.category}</div>
-        <div>cover: ${liveStream.cover}</div>
+        <img src="${liveStream.cover}" alt="Live Stream Cover" style="width: 100px; height: auto; border-radius: 5px;">
       `;
             listContainer.appendChild(item);
           });
