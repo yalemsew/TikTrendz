@@ -1,5 +1,10 @@
 require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const http = require("http");
 const socketIo = require("socket.io");
 const path = require("path");
@@ -14,6 +19,38 @@ const chatController = require("./controller/chatroom.controller");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+// Body-paser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Init Passport
+app.use(passport.initialize());
+
+// Local
+passport.use(
+  new LocalStrategy(function (username, password, done) {
+    const user = users.find((u) => u.username === username);
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return done(null, false, { message: "Incorrect username or password." });
+    }
+
+    return done(null, user);
+  })
+);
+
+// login router
+// app.post(
+//   "/login",
+//   passport.authenticate("local", { session: false }),
+//   (req, res) => {
+//     const token = jwt.sign({ sub: req.user.id }, JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+//     res.json({ token });
+//   }
+// );
 
 // Middleware
 app.use(cors());
@@ -73,9 +110,9 @@ io.on("connection", (socket) => {
 
   socket.on("requestChatHistory", async (roomId) => {
     try {
-      console.log('history')
+      console.log("history");
       const messages = await chatController.getMessages(roomId);
-      socket.emit("chatHistory", messages); 
+      socket.emit("chatHistory", messages);
     } catch (err) {
       console.error("Error fetching chat history: ", err);
     }

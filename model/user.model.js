@@ -1,21 +1,33 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 
-const User = sequelize.define(
-  "user",
+class User extends Model {}
+
+User.init(
   {
-    // Assuming your user has a name and email. Adjust as needed.
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
+    // 模型属性
+    username: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM("it", "operation", "user"),
+      defaultValue: "user",
     },
   },
   {
-    freezeTableName: true, // This prevents Sequelize from pluralizing the table name
+    sequelize,
+    modelName: "user",
+    freezeTableName: true,
   }
 );
 
