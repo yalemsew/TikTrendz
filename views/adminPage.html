@@ -223,7 +223,8 @@
               likes: item.stats.diggCount,
               comments: item.stats.commentCount,
               favorites: item.stats.collectCount,
-              views: item.stats.playCount
+              views: item.stats.playCount,
+              cover: item.reflowCover
             };
             videos.push(video);
           });
@@ -233,6 +234,7 @@
             item.className = "list-item";
             item.innerHTML = `
         <div class="list-item-title">${video.title}</div>
+        <img src="${video.cover}" alt="Live Stream Cover" style="width: 100px; height: auto; border-radius: 5px;">
         <div>Likes: ${video.likes}</div>
         <div>Comments: ${video.comments}</div>
         <div>Favorites: ${video.favorites}</div>
@@ -295,9 +297,10 @@
             item.className = "list-item";
             item.innerHTML = `
         <div class="list-item-title">${liveStream.title}</div>
+        <img src="${liveStream.cover}" alt="Live Stream Cover" style="width: 100px; height: auto; border-radius: 5px;">
+
         <div>Id: ${liveStream.id}</div>
         <div>Category: ${liveStream.category}</div>
-        <img src="${liveStream.cover}" alt="Live Stream Cover" style="width: 100px; height: auto; border-radius: 5px;">
       `;
             listContainer.appendChild(item);
           });
