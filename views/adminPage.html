@@ -147,20 +147,10 @@
   </template>
 
   <script>
-    let videos = [
-
-    ];
+    let videos = [];
     let liveStreams = [];
 
-    const users = [{
-        username: "user1",
-        email: "user1@example.com"
-      },
-      {
-        username: "user2",
-        email: "user2@example.com"
-      },
-    ];
+    let users = [];
     document.getElementById('fetch-video-btn').addEventListener('click', () => loadTemplate('fetch-video-template'));
     document.getElementById('videos-btn').addEventListener('click', function() {
       loadTemplate('videos-template');
@@ -308,20 +298,50 @@
         .catch(error => console.error('There was a problem with your fetch operation:', error));
     }
 
-    function renderUsers(users) {
+    function renderUsers() {
       const listContainer = document.getElementById("users-list");
       listContainer.innerHTML = '';
+      console.log('before fetch users');
 
-      users.forEach(user => {
-        const item = document.createElement("div");
-        item.className = "list-item";
-        item.innerHTML = `
-      <div class="list-item-title">${user.username}</div>
-      <div>Email: ${user.email}</div>
-    `;
-        listContainer.appendChild(item);
-      });
+      fetch('/user', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('fetch completed', data);
+          users = [];
+
+          data.forEach(item => {
+            let user = {
+              username: item.username,
+              email: item.email,
+              role: item.role
+            };
+            users.push(user);
+          });
+
+          users.forEach(user => {
+            const item = document.createElement("div");
+            item.className = "list-item";
+            item.innerHTML = `
+          <div class="list-item-title">${user.username}</div>
+          <div>Email: ${user.email}</div>
+          <div>Role: ${user.role}</div>
+        `;
+            listContainer.appendChild(item);
+          });
+        })
+        .catch(error => console.error('There was a problem with your fetch operation:', error));
     }
+
 
     function manualFetch() {
       console.log('Manual fetch initiated');
