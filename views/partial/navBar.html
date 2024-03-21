@@ -1,63 +1,55 @@
 <style>
-  
-
   .nav_items {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     height: 90px;
     width: 100%;
-
-    background: linear-gradient(to bottom, #7c3131 0%, #000000 100%);
+    background: linear-gradient(to bottom, #ee1d52 0%, #4a00e0 100%);
+    /* TikTok gradient colors */
   }
 
   .nav_items.active {
     display: flex;
-    /* Show the nav items when active */
     flex-direction: column;
     position: absolute;
     top: 80px;
     left: 0;
     width: 100%;
     background-color: #181818;
-    /* Darker nav bar */
     padding: 10px 0;
   }
 
   .nav_items div {
     margin-right: 20px;
-    /* Add some margin between the items */
     cursor: pointer;
   }
 
   .nav_items.active div {
     margin-right: 0;
-    /* Reset margin for mobile layout */
     font-weight: bold;
     padding: 10px 20px;
-    /* Add padding for mobile layout */
     border-bottom: 1px solid #333;
-    /* Add border bottom for mobile layout */
   }
 
   .menu-toggle {
-    display: block; /* Show the menu toggle */
+    display: block;
     color: #fff;
     cursor: pointer;
   }
+
   #sign-up a {
     color: #ffffff;
     text-decoration: none;
   }
 
   @media only screen and (min-width: 600px) {
-    /* Desktop styles */
     .nav_items {
       display: flex;
     }
 
     .menu-toggle {
-      display: none; /* Hide the menu toggle on desktop */
+      display: none;
     }
   }
 </style>
