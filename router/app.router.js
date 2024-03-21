@@ -1,7 +1,7 @@
 module.exports = function (app) {
   const userController = require("../controller/user.controller.js");
 
-  app.post("/user", userController.create);
+  // app.post("/user", userController.create);
 
   app.get("/user", userController.findAll);
 
@@ -13,5 +13,9 @@ module.exports = function (app) {
 
   app.get("/chat", (req, res) => {
     res.render("chatRoom");
+  });
+
+  app.get("/admin", (req, res) => {
+    res.render("adminPage");
   });
 };

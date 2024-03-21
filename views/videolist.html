@@ -6,6 +6,73 @@
     <title>Document</title>
 </head>
 <style>
+    body {
+        padding: 0px;
+        margin: 0px;
+    }
+        .top {
+        background-image: url("./images.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif; /* Optional: Set a modern font */
+        color: #fff; /* Optional: Set text color to white for contrast */
+        }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 90%;
+        margin: auto;
+        /* Add margin at the top for spacing */
+      }
+
+      .items {
+        display: flex;
+        flex-direction: column; 
+       /* Display items vertically */
+    /* Add margin at the top for spacing */
+}
+      .item-prop1 {
+        color: white;
+        font-size: 12px;
+        font-family: cursive;
+        margin: 10px;
+      }
+      .item_prop {
+        position: relative;
+        left: 40%;
+        top: 50%;
+      }
+
+      .item {
+        flex: 0 0 auto;
+        width: 171px;
+        height: 305px;
+        background-color: #333;
+        margin: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+
+      .item:hover {
+        transform: scale(1.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .scrollButton {
+        display: none;
+      }
+
+      .scrollButton:hover {
+        opacity: 0.4;
+      }
+
+
      /* Css of sphere element --------------------------------------------------- */
      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
@@ -35,6 +102,13 @@
             }
             /* *********************sphere  css  end  *******************************************/
 
+            .videocontainer{
+                display: flex;
+                flex-wrap: wrap;
+                width: 90%;
+                margin: auto;
+                border: 1px solid red;
+            }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
@@ -81,12 +155,24 @@
                                             throw new Error('Failed to send clicked word to backend');
                                         }
                                     }).then(data => {
-                                        console.log(data);
-                                        // Handle the response data from the server
-                                        // You can filter the data and do further processing here
+                                        const { person } = data;
+                                        console.log(person);
+
+                                        let htmlContent = '';
+                                        person.forEach(video => {
+                                            htmlContent += ` 
+                                                
+                                                <div class="item" style="background-image: url('${video.reflowCover}');"'>
+                                                    
+                                                </div>
+                                            `;
+                                        });
+                                        $(".videocontainer").html(htmlContent);
                                     }).catch(error => {
                                         console.error(error);
                                     });
+
+                                    
                             });
                         });
                     })
@@ -98,14 +184,19 @@
 
 
     <body>
-    <%- include('./partial/navBar.html') %>
-  
-    <div class="sphere_body">
-      <span class="ClickableWord"></span>
-    </div>
-  
-    <div>
+    <div class="top">
+             <%- include('./partial/navBar.html') %>
         
+            <div class="sphere_body">
+                <span class="ClickableWord"></span>
+            </div>
+    </div>>
+  
+    <div class="videocontainer">
+        <h2></h2>
+        <div class="container">
+          <div class="items" ></div>
+        </div>
     </div>
     
 </body>

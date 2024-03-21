@@ -112,32 +112,32 @@
         <p id="errorText" style="color: red"></p>
       </form>
       <div class="sign-up">
-        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p>Don't have an account? <a href="/register">Sign Up</a></p>
       </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $(document).ready(function () {
-        $("#loginForm").submit(function (e) {
-          e.preventDefault();
+      // $(document).ready(function () {
+      //   $("#loginForm").submit(function (e) {
+      //     e.preventDefault();
 
-          var formData = $(this).serialize();
-          $.ajax({
-            type: "POST",
-            url: "your-server-endpoint-url",
-            data: formData,
-            success: function (response) {
-              // Handle successful response
-              window.location.href = "dashboard.html";
-            },
-            error: function (xhr, status, error) {
-              // Handle error response
-              $("#errorText").text("Incorrect email or password.");
-            },
-          });
-        });
-      });
+      //     var formData = $(this).serialize();
+      //     $.ajax({
+      //       type: "POST",
+      //       url: "your-server-endpoint-url",
+      //       data: formData,
+      //       success: function (response) {
+      //         // Handle successful response
+      //         window.location.href = "dashboard.html";
+      //       },
+      //       error: function (xhr, status, error) {
+      //         // Handle error response
+      //         $("#errorText").text("Incorrect email or password.");
+      //       },
+      //     });
+      //   });
+      // });
     </script>
   </body>
 </html>
