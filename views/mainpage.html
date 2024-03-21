@@ -86,14 +86,31 @@
 
     .sphere_body {
       height: 70vh;
+      position: relative;
+      bottom: 90px;
+      left: 80px;
       width: 100%;
     }
     .watch{
       position: relative;
-      top: 100px;
-      left: 70px;
-      border: 1px solid red;
+      top: 200px;
+      left: 140px;
+      z-index: 1;
+      width: 300px;
     }
+
+  .watch span{
+    font-size: 50px;
+    color: red;
+  }
+  .watch a{
+    text-decoration: none;
+    font-size: 14pxpx;
+    color: white;
+  }
+  #arrow{
+    font-size: 35px;
+  }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -314,7 +331,8 @@
     </div>
 
     <div class="watch">
-      <h1>Watch trending videos</h1>
+      <h1><span>Watch</span> <br>trending videos</h1>
+      <a href="/videolist">Click here to watch <span id="arrow"> &#8594;</span></a>
     </div>
 
   <div class="sphere_body">
