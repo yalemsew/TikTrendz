@@ -88,67 +88,50 @@
       height: 70vh;
       width: 100%;
     }
+    .watch{
+      position: relative;
+      top: 100px;
+      left: 70px;
+      border: 1px solid red;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
   
   <script type="text/javascript">
-    // create hashtag wordcloud
-    document.addEventListener("DOMContentLoaded", function() {
-      const Texts = [
-        "HTML",
-        "CSS",
-        "JAVASCRIPT",
-        "SWIFT",
-        "MONGOOSE",
-        "REACT",
-        "PYTHON",
-        "SASS",
-        "DJANGO",
-        "NODEJS",
-        "MONGODB",
-        "EXPRESS",
-        "MYSQL",
-        "JQUERY",
-        "JAVA",
-      ];
-
-      let tagCloud = TagCloud(".Sphere", Texts, {
-        // Sphere radius in px
-        radius: 230,
-
-        // animation speed
-        // slow, normal, fast
-        maxSpeed: "normal",
-        initSpeed: "fast",
-
-        // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)]
-        direction: 135,
-
-        // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
-        keep: true,
-      });
-
-      // Giving color to each text in sphere
-      let color = "#fff";
-      document.querySelector(".Sphere").style.color = color;
-    });
+    
 
     $(() => {
-      // hashtag click event
-      let rootEl = document.querySelector(".tagcloud");
-      rootEl.addEventListener("click", function clickEventHandler(e) {
-        console.log(e.target.className);
-        const item = e.target.innerText;
-        if (e.target.className === "tagcloud--item") {
-          window.open(
-            // `https://www.google.com/search?q=${e.target.innerText}`,
-            // "_blank"
-            (window.location.href = `http://localhost:80/index2?item=${item}`)
-            // "http://localhost:80/play"
-          );
-        }
-      });
+      fetch("http://localhost:80/wordcloud")
+                    .then(response => response.json())
+                    .then(data => {
+                        var tagCloud = TagCloud('.sphere_body', data, {
+                            radius: 230,
+                            maxSpeed: 'normal',
+                            initSpeed: 'fast',
+                            direction: 135,
+                            keep: true
+                        });
+
+                        var color = '#FF5733';
+                        document.querySelectorAll('.sphere_body span').forEach(wordElement => {
+                            wordElement.style.color = color;
+                            
+                            var clickedWord;
+                            // Add click event listener to the word element
+                            wordElement.addEventListener('click', function() {
+                                clickedWord = this.textContent;
+                                console.log('Clicked word: is this ', clickedWord);
+                                // Redirect to another page or handle the click event here
+                                //  window.location.href = 'https://example.com/?word=' + clickedWord
+
+                                    
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                    });
 
         function loadVideoData(category, count) {
           $.get(
@@ -328,6 +311,10 @@
           </video>
         </div>
       </div>
+    </div>
+
+    <div class="watch">
+      <h1>Watch trending videos</h1>
     </div>
 
   <div class="sphere_body">
