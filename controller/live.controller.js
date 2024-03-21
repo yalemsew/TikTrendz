@@ -30,21 +30,19 @@ function createLiveStreamObj(item, category) {
   return liveStreamObj;
 }
 
-exports.fetch = (api) => (req, res) => {
+exports.fetch = (api) => async (req, res) => {
+  const accountKey = process.env.TIKAPI_ACCOUNT_KEY;
   const User = new api.user({
-    accountKey: process.env.TIKAPI_ACCOUNT_KEY,
+    accountKey,
   });
-  // fetch game livestreaming
-  let category = "game";
-  (async function () {
+
+  async function fetchAndSaveLiveStreams(category) {
     try {
       let response = await User.live.search({
         query: category,
       });
       let liveStreams = [];
-      let header = {};
-      header = response.json["$other"].videoLinkHeaders;
-      //   console.log(response.json);
+      let header = response.json["$other"].videoLinkHeaders || {};
 
       if (Array.isArray(response.json.data)) {
         response.json.data.forEach((item) => {
@@ -54,91 +52,27 @@ exports.fetch = (api) => (req, res) => {
         });
       }
 
-      // Save the new livestreams to the database
-      Live.insertMany(liveStreams)
-        .then((docs) => {
-          console.log(
-            docs.length + " " + category + " livestreams saved successfully!"
-          );
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      await Live.insertMany(liveStreams);
+      console.log(
+        `${liveStreams.length} ${category} livestreams saved successfully!`
+      );
     } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
+      console.error(err?.statusCode, err?.message, err?.json);
+      throw err;
     }
-  })();
+  }
 
-  // programming
+  const categories = ["game", "programming", "outdoor"];
 
-  (async function () {
-    try {
-      let category = "programming";
-      let response = await User.live.search({
-        query: category,
-      });
-      let liveStreams = [];
-      let header = {};
-      header = response.json["$other"].videoLinkHeaders;
-      //   console.log(response.json);
-
-      if (Array.isArray(response.json.data)) {
-        response.json.data.forEach((item) => {
-          let liveStream = createLiveStreamObj(item.live_info, category);
-          liveStream.videoLinkHeaders = header;
-          liveStreams.push(liveStream);
-        });
-      }
-
-      // Save the new livestreams to the database
-      Live.insertMany(liveStreams)
-        .then((docs) => {
-          console.log(
-            docs.length + " " + category + " livestreams saved successfully!"
-          );
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
-    }
-  })();
-  // outdoor
-
-  (async function () {
-    try {
-      let category = "outdoor";
-      let response = await User.live.search({
-        query: category,
-      });
-      let liveStreams = [];
-      let header = {};
-      header = response.json["$other"].videoLinkHeaders;
-      //   console.log(response.json);
-
-      if (Array.isArray(response.json.data)) {
-        response.json.data.forEach((item) => {
-          let liveStream = createLiveStreamObj(item.live_info, category);
-          liveStream.videoLinkHeaders = header;
-          liveStreams.push(liveStream);
-        });
-      }
-
-      // Save the new livestreams to the database
-      Live.insertMany(liveStreams)
-        .then((docs) => {
-          console.log(
-            docs.length + " " + category + " livestreams saved successfully!"
-          );
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } catch (err) {
-      console.log(err?.statusCode, err?.message, err?.json);
-    }
-  })();
+  try {
+    await Promise.all(
+      categories.map((category) => fetchAndSaveLiveStreams(category))
+    );
+    // res.send("");
+    res.json({msg: "All livestreaming fetched successfully!"})
+  } catch (error) {
+    res.status(500).json({msg: "Failed to fetch livestreaming data."});
+  }
 };
 
 exports.getLivesByCategory = function (req, res) {

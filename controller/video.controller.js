@@ -38,142 +38,53 @@ function createVideoObj(item, category) {
   return videoObj;
 }
 
-exports.fetch = (api) => (req, res) => {
-  // fetch trending
-  api.public
-    .explore({
-      session_id: 0,
-      country: "us",
-    })
-    .then((response) => {
-      let videos = [];
-      let header = {};
-      header = response.json["$other"].videoLinkHeaders;
-      if (Array.isArray(response.json.itemList)) {
-        response.json.itemList.forEach((item) => {
-          let video = createVideoObj(item, "trending");
-          video.videoLinkHeaders = header;
-          videos.push(video);
-        });
+exports.fetch = (api) => async (req, res) => {
+  async function fetchAndSaveVideos(category, query, type) {
+    try {
+      let response;
+      if (category === "explore") {
+        response = await api.public.explore({ session_id: 0, country: "us" });
+      } else if (category === "search") {
+        response = await api.public.search({ category: "videos", query });
+      } else {
+        console.error("Unsupported category");
+        return;
       }
 
-      // Save the new videos to the database
-      Video.insertMany(videos)
-        .then((docs) => {
-          console.log(docs.length + " trending videos saved successfully!");
-          // res.send("fetched successfully!");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err?.statusCode, err?.message, err?.json);
-    });
-
-  // fetch sport
-  api.public
-    .search({
-      category: "videos",
-      query: "sport",
-    })
-    .then((response) => {
-      // res.json(response.json);
       let videos = [];
-      let header = {};
-      header = response.json?.$other?.videoLinkHeaders;
-      if (Array.isArray(response.json.item_list)) {
-        console.log("sport list length: " + response.json.item_list.length);
-        response.json.item_list.forEach((item) => {
-          let video = createVideoObj(item, "sport");
-          video.videoLinkHeaders = header;
-          videos.push(video);
-        });
-        console.log("processed vodeos list length: " + videos.length);
-      }
+      let header = response.json.$other?.videoLinkHeaders || {};
+      let itemList = response.json.itemList || response.json.item_list || [];
+      console.log(`${type} list length: ${itemList.length}`);
 
-      // Save the new videos to the database
-      Video.insertMany(videos)
-        .then((docs) => {
-          console.log(docs.length + " sport videos saved successfully!");
-          // res.send("fetched successfully!");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err?.statusCode, err?.message, err?.json);
-    });
+      itemList.forEach((item) => {
+        let video = createVideoObj(item, type);
+        video.videoLinkHeaders = header;
+        videos.push(video);
+      });
+      console.log(`processed videos list length: ${videos.length}`);
 
-  // fetch funny
-  api.public
-    .search({
-      category: "videos",
-      query: "funny",
-    })
-    .then((response) => {
-      // res.json(response.json);
-      let videos = [];
-      let header = {};
-      header = response.json?.$other?.videoLinkHeaders;
-      if (Array.isArray(response.json.item_list)) {
-        console.log("funny list length: " + response.json.item_list.length);
-        response.json.item_list.forEach((item) => {
-          let video = createVideoObj(item, "funny");
-          video.videoLinkHeaders = header;
-          videos.push(video);
-        });
-        console.log("processed vodeos list length: " + videos.length);
-      }
+      const docs = await Video.insertMany(videos);
+      console.log(`${docs.length} ${type} videos saved successfully!`);
+    } catch (err) {
+      console.error(err?.statusCode, err?.message, err?.json);
+      throw err;
+    }
+  }
 
-      // Save the new videos to the database
-      Video.insertMany(videos)
-        .then((docs) => {
-          console.log(docs.length + " cat videos saved successfully!");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err?.statusCode, err?.message, err?.json);
-    });
+  const tasks = [
+    fetchAndSaveVideos("explore", null, "trending"),
+    fetchAndSaveVideos("search", "sport", "sport"),
+    fetchAndSaveVideos("search", "funny", "funny"),
+    fetchAndSaveVideos("search", "cat", "cat"),
+  ];
 
-  // fetch cat
-  api.public
-    .search({
-      category: "videos",
-      query: "cat",
-    })
-    .then((response) => {
-      // res.json(response.json);
-      let videos = [];
-      let header = {};
-      header = response.json?.$other?.videoLinkHeaders;
-      if (Array.isArray(response.json.item_list)) {
-        console.log("cat list length: " + response.json.item_list.length);
-        response.json.item_list.forEach((item) => {
-          let video = createVideoObj(item, "cat");
-          video.videoLinkHeaders = header;
-          videos.push(video);
-        });
-        console.log("processed vodeos list length: " + videos.length);
-      }
-
-      // Save the new videos to the database
-      Video.insertMany(videos)
-        .then((docs) => {
-          console.log(docs.length + " cat videos saved successfully!");
-          res.send("fetched successfully!");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err?.statusCode, err?.message, err?.json);
-    });
+  try {
+    await Promise.all(tasks);
+    // res.send();
+    res.json({ msg: "All videos fetched and saved successfully!" });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occurred while fetching videos." });
+  }
 };
 
 exports.getVideosByCategory = function (req, res) {

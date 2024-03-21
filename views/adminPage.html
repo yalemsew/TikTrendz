@@ -344,8 +344,34 @@
 
 
     function manualFetch() {
-      console.log('Manual fetch initiated');
-      // Implement the fetch logic here
+      console.log('Fetching data...');
+
+      const fetchVideosPromise = fetch('/fetch')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Videos fetch failed');
+          }
+          return response.json();
+        });
+
+      const fetchLiveStreamsPromise = fetch('/fetchLive')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Live streams fetch failed');
+          }
+          return response.json();
+        });
+
+      Promise.all([fetchVideosPromise, fetchLiveStreamsPromise])
+        .then(([videosData, liveStreamsData]) => {
+          console.log('Videos:', videosData);
+          console.log('Live Streams:', liveStreamsData);
+          alert('All data fetched successfully!');
+        })
+        .catch(error => {
+          console.error('Fetching data error:', error);
+          alert('Failed to fetch data.');
+        });
     }
 
     function saveCron() {
