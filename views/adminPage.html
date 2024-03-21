@@ -150,21 +150,7 @@
     let videos = [
 
     ];
-    const liveStreams = [{
-        title: "Live Stream 1",
-        likes: 120,
-        comments: 45,
-        favorites: 75,
-        views: 3000
-      },
-      {
-        title: "Live Stream 2",
-        likes: 200,
-        comments: 80,
-        favorites: 100,
-        views: 4500
-      },
-    ];
+    let liveStreams = [];
 
     const users = [{
         username: "user1",
@@ -212,7 +198,7 @@
 
     function renderVideos() {
       const listContainer = document.getElementById("videos-list");
-      listContainer.innerHTML = ''; 
+      listContainer.innerHTML = '';
       console.log('before fetch');
 
       fetch('/getVideos', {
@@ -273,22 +259,50 @@
     // });
 
 
-    function renderLiveStreams(liveStreams) {
+    function renderLiveStreams() {
       const listContainer = document.getElementById("live-stream-list");
       listContainer.innerHTML = '';
+      console.log('before fetch live streams');
 
-      liveStreams.forEach(stream => {
-        const item = document.createElement("div");
-        item.className = "list-item";
-        item.innerHTML = `
-      <div class="list-item-title">${stream.title}</div>
-      <div>Likes: ${stream.likes}</div>
-      <div>Comments: ${stream.comments}</div>
-      <div>Favorites: ${stream.favorites}</div>
-      <div>Views: ${stream.views}</div>
-    `;
-        listContainer.appendChild(item);
-      });
+      fetch('/getLives', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('fetch completed', data);
+          liveStreams = [];
+
+          data.forEach(item => {
+            let liveStream = {
+              id: item.liveStreamId,
+              title: item.title,
+              category: item.category,
+              cover: item.cover.urlList[0],
+            };
+            liveStreams.push(liveStream);
+          });
+
+          liveStreams.forEach(liveStream => {
+            const item = document.createElement("div");
+            item.className = "list-item";
+            item.innerHTML = `
+        <div class="list-item-title">${liveStream.title}</div>
+        <div>Id: ${liveStream.id}</div>
+        <div>Category: ${liveStream.category}</div>
+        <img src="${liveStream.cover}" alt="Live Stream Cover" style="width: 100px; height: auto; border-radius: 5px;">
+      `;
+            listContainer.appendChild(item);
+          });
+        })
+        .catch(error => console.error('There was a problem with your fetch operation:', error));
     }
 
     function renderUsers(users) {
