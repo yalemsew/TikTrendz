@@ -1,37 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Admin Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #141414;
+      color: white;
     }
 
     .sidebar {
-      height: 100%;
-      width: 150px;
+      height: 100vh;
+      width: 200px;
       position: fixed;
       background-color: #333;
       padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     }
 
     .sidebar a {
       display: block;
-      padding: 10px 15px;
+      padding: 10px;
       color: white;
       text-decoration: none;
+      font-weight: bold;
     }
 
     .sidebar a:hover {
-      background-color: #555;
+      background-color: #E50914;
     }
 
     .content {
       margin-left: 200px;
       padding: 20px;
+      background-color: #141414;
+    }
+
+    .content h2 {
+      color: white;
+    }
+
+    button {
+      background-color: #E50914;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #B20710;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #555;
+      color: white;
     }
   </style>
 </head>
@@ -39,78 +73,61 @@
 <body>
   <div class="sidebar">
     <a href="#home">Home</a>
-    <a href="#" onclick="fetchVideo()">Fetch Video</a>
+    <a href="#" id="fetch-video">Fetch Video</a>
     <a href="/liveStream">Live Stream</a>
     <a href="signin.html">Users</a>
     <a href="#settings">Settings</a>
     <a href="/logout">Logout</a>
   </div>
   <div class="content" id="main-content">
-    <h2>Welcome to the Admin Page</h2>
+    <h2>Welcome to the Admin Dashboard</h2>
     <div id="video-container"></div>
   </div>
+
+  <script>
+    document.getElementById('fetch-video').addEventListener('click', fetchVideo);
+
+    function fetchVideo() {
+      const videoContainer = document.getElementById("video-container");
+      videoContainer.innerHTML = ''; // Clear previous content
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter value";
+      videoContainer.appendChild(input);
+
+      const button = document.createElement("button");
+      button.innerText = "Submit";
+      button.onclick = submitForm;
+      videoContainer.appendChild(button);
+    }
+
+    function submitForm() {
+      const inputValue = document.querySelector("#video-container input").value;
+
+      fetch("http://localhost/fetchLive", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            value: inputValue
+          }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from backend:", data);
+          alert("Response from backend: " + JSON.stringify(data));
+
+          const videoContainer = document.getElementById("video-container");
+          videoContainer.innerHTML = ''; // Clear the input and button
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+          alert("Error submitting form");
+        });
+    }
+  </script>
 </body>
-
-<script>
-  function fetchVideo() {
-    const videoContainer = document.getElementById("video-container");
-
-    const fetchButton = document.createElement("Button");
-    fetchButton.innerText = "Fetch Video";
-
-    const button = document.createElement("button");
-    button.innerText = "Submit";
-    button.onclick = submitForm;
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "Enter value";
-
-    videoContainer.appendChild(fetchButton);
-    videoContainer.appendChild(input);
-    videoContainer.appendChild(button);
-  }
-
-  function fetchButton() {
-    fetch("http:localhost/fetch")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from backend:", data);
-        //   alert("Response from backend: " + JSON.stringify(data));
-      })
-      .catch((error) => {
-        console.error("Error fetching video:", error);
-        //   alert("Error fetching video");
-      });
-  }
-
-  function submitForm() {
-    const inputValue = document.querySelector("input").value;
-
-    fetch("http:localhost/fetchLive", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          value: inputValue
-        }),
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from backend:", data);
-        alert("Response from backend: " + JSON.stringify(data));
-
-        // Remove the button and input box
-        const videoContainer = document.getElementById("video-container");
-        videoContainer.removeChild(videoContainer.lastChild);
-        videoContainer.removeChild(videoContainer.lastChild);
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-        alert("Error submitting form");
-      });
-  }
-</script>
 
 </html>
