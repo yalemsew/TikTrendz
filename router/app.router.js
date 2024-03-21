@@ -1,5 +1,6 @@
 module.exports = function (app) {
   const userController = require("../controller/user.controller.js");
+  const { authenticateToken, requireRoles } = require("../middleware/auth.js");
 
   // app.post("/user", userController.create);
 
@@ -15,7 +16,12 @@ module.exports = function (app) {
     res.render("chatRoom");
   });
 
-  app.get("/admin", (req, res) => {
-    res.render("adminPage");
-  });
+  app.get(
+    "/admin",
+    authenticateToken,
+    requireRoles(["it", "operation"]),
+    (req, res) => {
+      res.render("adminPage");
+    }
+  );
 };
