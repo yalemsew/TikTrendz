@@ -2,6 +2,9 @@
 
 TikTrendz stands at the forefront of video analysis and statistics, specializing in the vibrant world of TikTok. Our mission is to offer users an unprecedented platform to explore trending videos, delve into trend analytics, categorize content for tailored viewing experiences, and understand public sentiment through comment analysis.
 
+![1](https://img2.imgtp.com/2024/03/21/L4uNqQbq.png "1")
+
+
 ## Features
 
 1. **Dynamic Tag Cloud Generation**: OLeveraging the power of TikTok's API, TikTrendz introduces an innovative tag cloud that dynamically represents the most popular trends. This visual tool not only captivates but also guides users effortlessly towards the content that dominates the current discourse on TikTok.
