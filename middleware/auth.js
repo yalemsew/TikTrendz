@@ -18,6 +18,7 @@ function authenticateToken(req, res, next) {
 function requireRoles(roles) {
   return function (req, res, next) {
     if (!roles.includes(req.user.role)) {
+      console.log(req.user.role);
       return res.redirect("/unauthorized");
     }
     next();

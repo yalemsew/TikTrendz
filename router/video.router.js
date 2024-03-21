@@ -16,7 +16,7 @@ module.exports = function (app, api) {
   app.get(
     "/mainpage",
     authenticateToken,
-    requireRoles(["user"], ["it"]),
+    requireRoles(["user", "it"]),
     (req, res) => {
       res.render("mainpage");
     }
