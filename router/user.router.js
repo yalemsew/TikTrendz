@@ -20,4 +20,9 @@ module.exports = function (app) {
   app.put("/user/:userId", userController.update);
 
   app.delete("/user/:userId", userController.delete);
+
+  app.get("/logout", (req, res) => {
+    res.clearCookie("jwt");
+    res.redirect("/login");
+  });
 };
