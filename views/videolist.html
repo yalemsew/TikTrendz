@@ -109,6 +109,10 @@
                 margin: auto;
                 border: 1px solid red;
             }
+
+        .hashtext {
+            text-align: center;
+        }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
@@ -134,10 +138,10 @@
                         document.querySelectorAll('.sphere_body span').forEach(wordElement => {
                             wordElement.style.color = color;
                             
-
+                            var clickedWord;
                             // Add click event listener to the word element
                             wordElement.addEventListener('click', function() {
-                                var clickedWord = this.textContent;
+                                clickedWord = this.textContent;
                                 console.log('Clicked word: is this ', clickedWord);
                                 // Redirect to another page or handle the click event here
                                 //  window.location.href = 'https://example.com/?word=' + clickedWord;
@@ -158,6 +162,7 @@
                                         const { person } = data;
                                         console.log(person);
 
+                                        $(".hashtext").html(`<h1>#${clickedWord}</h1>`);
                                         let htmlContent = '';
                                         person.forEach(video => {
                                             htmlContent += ` 
@@ -191,9 +196,9 @@
                 <span class="ClickableWord"></span>
             </div>
     </div>>
-  
+  <div class="hashtext"></div>
+
     <div class="videocontainer">
-        <h2></h2>
         <div class="container">
           <div class="items" ></div>
         </div>
