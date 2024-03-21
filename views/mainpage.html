@@ -18,7 +18,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
         margin-top: 20px; /* Add margin at the top for spacing */
       }
 
@@ -87,9 +87,10 @@
     .sphere_body {
       height: 70vh;
       position: relative;
-      bottom: 90px;
-      left: 80px;
-      width: 100%;
+      bottom: 100px;
+      left: 400px;
+      width: 50%;
+      
     }
     .watch{
       position: relative;
@@ -130,7 +131,7 @@
                             keep: true
                         });
 
-                        var color = '#FF5733';
+                        var color = '#ee1d52';
                         document.querySelectorAll('.sphere_body span').forEach(wordElement => {
                             wordElement.style.color = color;
                             
