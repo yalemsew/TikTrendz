@@ -1,30 +1,23 @@
 # TikTrendz
 
-TikTrendz is a video analysis and statistics platform based on TikTok. Our aim is to provide a platform where users can discover trending videos, analyze trends, view videos by category, and analyze comments.
+TikTrendz stands at the forefront of video analysis and statistics, specializing in the vibrant world of TikTok. Our mission is to offer users an unprecedented platform to explore trending videos, delve into trend analytics, categorize content for tailored viewing experiences, and understand public sentiment through comment analysis.
+
+![1](https://img2.imgtp.com/2024/03/21/L4uNqQbq.png "1")
+
 
 ## Features
 
-1. **Trending Video Aggregation**: Our platform collects trending videos on TikTok and aggregates them for easy viewing and analysis.
+1. **Dynamic Tag Cloud Generation**: OLeveraging the power of TikTok's API, TikTrendz introduces an innovative tag cloud that dynamically represents the most popular trends. This visual tool not only captivates but also guides users effortlessly towards the content that dominates the current discourse on TikTok.
 
-2. **Trend Analysis**: Our platform analyzes trends on TikTok and provides detailed reports to help users understand what content is currently popular.
+2. **Trend-Driven Video Display**: Anchored by our real-time tag cloud, TikTrendz curates and showcases videos that resonate with the hottest trends. This ensures our users are always in sync with the pulse of TikTok, enjoying content that's not just trending but also tailored to their interests.
 
-3. **Categorized Video Aggregation**: Our platform collects and aggregates videos according to various categories (such as music, dance, comedy, etc.) to allow users to easily find content they are interested in.
-
-4. **Comment Analysis**: Our platform analyzes comments on TikTok to help users understand public reactions and sentiments.
+3. **Watch With Me™ (Live Synchronization):**: Breaking the barriers of digital interaction, "Watch With Me" invites users to share their live video experiences. Enter a virtual room, watch trending videos together, and engage in real-time conversations, bringing a sense of closeness and shared excitement that's rare in digital spaces.
 
 ## Techstack:
 
-* Front End: HTML, CSS, Javascript(jQuery AJAX)  
+* Front End: HTML, CSS, Javascript
 * Back End: Express.js 
 * DB: MySQL, MongoDB
-* CVS: Github 
-* Teamwork: Github Project, Github Wiki, face-to-face meeting 
-
-## Getting Started
-
-* Open .env_local, follow the comments change the database connection information to your own
-* run ```npm install``` in the project root directory
-* Open localhost in browser
 
 ## Timeline:
 - 03/16/2024
