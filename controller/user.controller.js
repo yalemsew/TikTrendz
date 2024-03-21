@@ -1,5 +1,8 @@
+require("dotenv").config();
 const User = require("../model/user.model.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET
 
 // Create and Save a new User
 exports.register = async (req, res) => {
@@ -38,6 +41,7 @@ exports.login = async (req, res) => {
     });
     res.json({ message: "Login successful", token });
   } catch (error) {
+    console.error("Error logging in:", error);
     res.status(500).json({ message: "Error logging in", error });
   }
 };
