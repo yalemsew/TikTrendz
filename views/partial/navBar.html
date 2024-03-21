@@ -6,9 +6,7 @@
     height: 90px;
     width: 100%;
     background: #141414;
-    /* 更加细腻的深色背景 */
     transition: background-color 0.3s ease;
-    /* 背景颜色渐变动画 */
   }
 
   .nav_items.active {
@@ -19,21 +17,24 @@
     left: 0;
     width: 100%;
     background-color: #181818;
-    /* 暗色背景 */
     padding: 10px 0;
   }
 
-  .nav_items div {
+  .nav_items div,
+  .nav_items div a {
     margin-right: 20px;
     cursor: pointer;
     color: #ffffff;
     font-size: 1.1em;
-    /* 字体大小调整 */
     transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    /* 颜色、变形和阴影渐变动画 */
   }
 
-  .nav_items div:hover {
+  .nav_items div a {
+    text-decoration: none;
+  }
+
+  .nav_items div:hover,
+  .nav_items div a:hover {
     color: #e50914;
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
@@ -84,7 +85,7 @@
     logo
   </div> -->
   <div class="nav_items">
-    <div id="Home">Home</div>
+    <div id="Home"><a href="/mainpage">Home</a></div>
     <div id="About">About</div>
     <div id="Contact">Contact</div>
     <div id="Live">Live</div>

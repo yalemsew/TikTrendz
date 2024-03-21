@@ -10,17 +10,16 @@ module.exports = function (app, api) {
   app.get("/getVideos", videoController.getVideosByCategory);
   app.get("/getVideoslist", videoController.getAllTrending2);
 
-
   app.get("/", (req, res) => {
     res.render("firstpage");
   });
   app.get(
     "/mainpage",
     authenticateToken,
-    requireRoles(["user"]),
+    requireRoles(["user"], ["it"]),
     (req, res) => {
-    res.render("mainpage");
-  }
+      res.render("mainpage");
+    }
   );
 
   app.post("/play", (req, res) => {
@@ -57,7 +56,6 @@ module.exports = function (app, api) {
     }
   });
 
-
   //Nahom code ***************************************************
 
   app.get("/hashtag", (req, res) => {
@@ -71,7 +69,7 @@ module.exports = function (app, api) {
         if (!trendingVideos) {
           return res.status(404).json({ error: "Trending videos not found" });
         }
-  
+
         // Sorting the videos
         trendingVideos.sort(
           (a, b) =>
@@ -111,43 +109,43 @@ module.exports = function (app, api) {
         console.error(err);
         return res.status(500).json({ error: "Error getting trending videos" });
       });
-    });
+  });
 
-    app.post("/api/word", (req, res) => {
-      const clickedWord = req.body.word;
-      
-      videoController
+  app.post("/api/word", (req, res) => {
+    const clickedWord = req.body.word;
+
+    videoController
       .getAllTrending2()
-        .then((trendingVideos) => {
-          if (!trendingVideos) {
-            return res.status(404).json({ error: "Trending videos not found" });
-          }
-    
-          let person = [];
-    
-          for (let i = 0; i < trendingVideos.length; i++) {
-            let desc = trendingVideos[i].desc;
-            if (desc != undefined) {
-              let words = desc.split(" ");
-    
-              for (let j = 0; j < words.length; j++) {
-                if (words[j].charAt(0) == "#" && words[j] === `#${clickedWord}`) {
-                  person.push(trendingVideos[i]);
-                  break; // Exit the inner loop once the word is found
-                }
+      .then((trendingVideos) => {
+        if (!trendingVideos) {
+          return res.status(404).json({ error: "Trending videos not found" });
+        }
+
+        let person = [];
+
+        for (let i = 0; i < trendingVideos.length; i++) {
+          let desc = trendingVideos[i].desc;
+          if (desc != undefined) {
+            let words = desc.split(" ");
+
+            for (let j = 0; j < words.length; j++) {
+              if (words[j].charAt(0) == "#" && words[j] === `#${clickedWord}`) {
+                person.push(trendingVideos[i]);
+                break; // Exit the inner loop once the word is found
               }
             }
           }
-    
-          res.json({ person: person });
-        })
-        .catch((err) => {
-          console.error(err);
-          return res.status(500).json({ error: "Error getting trending videos" });
-        });
-    });
+        }
 
-    app.get("/videolist", (req, res) => {
+        res.json({ person: person });
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: "Error getting trending videos" });
+      });
+  });
+
+  app.get("/videolist", (req, res) => {
     res.render("videolist");
-    });
+  });
 };
