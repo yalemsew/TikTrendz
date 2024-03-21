@@ -71,7 +71,74 @@ exports.fetch = (api) => (req, res) => {
 
   // programming
 
+  (async function () {
+    try {
+      let category = "programming";
+      let response = await User.live.search({
+        query: category,
+      });
+      let liveStreams = [];
+      let header = {};
+      header = response.json["$other"].videoLinkHeaders;
+      //   console.log(response.json);
+
+      if (Array.isArray(response.json.data)) {
+        response.json.data.forEach((item) => {
+          let liveStream = createLiveStreamObj(item.live_info, category);
+          liveStream.videoLinkHeaders = header;
+          liveStreams.push(liveStream);
+        });
+      }
+
+      // Save the new livestreams to the database
+      Live.insertMany(liveStreams)
+        .then((docs) => {
+          console.log(
+            docs.length + " " + category + " livestreams saved successfully!"
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (err) {
+      console.log(err?.statusCode, err?.message, err?.json);
+    }
+  })();
   // outdoor
+
+  (async function () {
+    try {
+      let category = "outdoor";
+      let response = await User.live.search({
+        query: category,
+      });
+      let liveStreams = [];
+      let header = {};
+      header = response.json["$other"].videoLinkHeaders;
+      //   console.log(response.json);
+
+      if (Array.isArray(response.json.data)) {
+        response.json.data.forEach((item) => {
+          let liveStream = createLiveStreamObj(item.live_info, category);
+          liveStream.videoLinkHeaders = header;
+          liveStreams.push(liveStream);
+        });
+      }
+
+      // Save the new livestreams to the database
+      Live.insertMany(liveStreams)
+        .then((docs) => {
+          console.log(
+            docs.length + " " + category + " livestreams saved successfully!"
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (err) {
+      console.log(err?.statusCode, err?.message, err?.json);
+    }
+  })();
 };
 
 exports.getLivesByCategory = function (req, res) {

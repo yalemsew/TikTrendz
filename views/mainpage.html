@@ -234,7 +234,9 @@
       // LiveStreaming
       $(document).on("click", "#Live", function() {
         // console.log("click")
-        const categories = ["game"];
+        $("#videosContainer").css("display", "none");
+        $("#livesContainer").css("display", "block");
+        const categories = ["game", "programming", "outdoor"];
 
         categories.forEach((category) => {
           $.ajax({
@@ -244,7 +246,7 @@
               category: category,
             },
             success: function(data) {
-              // console.log(data)
+              console.log(data)
               updateLiveContent(category, data);
             },
             error: function(xhr, status, error) {
@@ -256,26 +258,20 @@
 
       // click home
       $(document).on("click", "#Home", function() {
-        $("#liveStreamingContainer").css("display", "none");
+        $("#livesContainer").css("display", "none");
         $("#videosContainer").css("display", "");
       });
     });
 
     function updateLiveContent(category, liveData) {
-      $("#videosContainer").css("display", "none");
-      $("#liveStreamingContainer").css("display", "");
-
-      const liveContainer = $("#liveStreamingItems");
+      const liveContainerId = `#${category}LiveStreamingItems`;
+      const liveContainer = $(liveContainerId);
       liveContainer.html("");
 
       liveData.forEach(function(live) {
-        // console.log(live.cover.urlList[0])
-        // console.log(live.title)
         let streamJson = JSON.parse(live.streamUrl);
         let liveId = live.liveStreamId;
         let originHls = streamJson.data.origin.main.hls;
-        console.log(live);
-        // console.log(originHls)
         const liveContent = `
       <div class="live-item" data-liveid="${liveId}" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
         <div class="item-prop1">${live.title}</div>
@@ -284,8 +280,37 @@
         liveContainer.append(liveContent);
       });
 
-      liveContainer.parent().css("display", "block");
+      // $(`#${category}LiveStreamingContainer`).css("display", "block");
     }
+
+
+    // Display the updated live streaming container
+    // $(`#${category}LiveStreamingContainer`).css("display", "block");
+    // $('#lives').css("livesContainer", "block");
+
+
+    $(document).on("click", "#Live", function() {
+      $("#videosContainer").css("display", "none");
+      $("#livesContainer").css("display", "");
+      const categories = ["game", "programming", "outdoor"];
+
+      categories.forEach((category) => {
+        $.ajax({
+          url: "/getLives",
+          type: "GET",
+          data: {
+            category: category,
+          },
+          success: function(data) {
+            console.log(data)
+            updateLiveContent(category, data);
+          },
+          error: function(xhr, status, error) {
+            console.error("get livestreaming error: ", error);
+          },
+        });
+      });
+    });
   </script>
 </head>
 
@@ -350,13 +375,32 @@
       </div>
     </div>
   </div>
-
-  <!-- livestreaming container -->
-  <div class="lives-row" id="liveStreamingContainer" style="display: none">
-    <h2>Live Streaming 📡</h2>
-    <div class="container">
-      <div class="items" id="liveStreamingItems"></div>
+  <div id="livesContainer" style="display:none">
+    <!-- Game Live Streaming Container -->
+    <div class="lives-row" id="gameLiveStreamingContainer">
+      <h2>Game Live Streaming 🎮</h2>
+      <div class="container">
+        <div class="items" id="gameLiveStreamingItems"></div>
+      </div>
     </div>
+
+    <!-- Programming Live Streaming Container -->
+    <div class="lives-row" id="programmingLiveStreamingContainer">
+      <h2>Programming Live Streaming 💻</h2>
+      <div class="container">
+        <div class="items" id="programmingLiveStreamingItems"></div>
+      </div>
+    </div>
+
+    <!-- Outdoor Live Streaming Container -->
+    <div class="lives-row" id="outdoorLiveStreamingContainer">
+      <h2>Outdoor Live Streaming 🌲</h2>
+      <div class="container">
+        <div class="items" id="outdoorLiveStreamingItems"></div>
+      </div>
+    </div>
+  </div>
+
   </div>
 
   <%- include('./partial/_footer.html') %>
