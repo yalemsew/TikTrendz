@@ -10,7 +10,7 @@ TikTrendz stands at the forefront of video analysis and statistics, specializing
 
 3. **Watch With Me™ (Live Synchronization):**: Breaking the barriers of digital interaction, "Watch With Me" invites users to share their live video experiences. Enter a virtual room, watch trending videos together, and engage in real-time conversations, bringing a sense of closeness and shared excitement that's rare in digital spaces.
 
-## Technology Stack:
+## Techstack:
 
 * Front End: HTML, CSS, Javascript
 * Back End: Express.js 
