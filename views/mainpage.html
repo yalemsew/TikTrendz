@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/video_model.css" />
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        background-color: #141414; /* Dark background */
+        color: #fff; /* Light text */
+        font-family: "Arial", sans-serif; /* Modern font */
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="./css/video_model.css" />
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #141414;
-      /* Dark background */
-      color: #fff;
-      /* Light text */
-      font-family: "Arial", sans-serif;
-      /* Modern font */
-    }
-
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      overflow-x: hidden;
-      margin-top: 20px;
-      /* Add margin at the top for spacing */
-    }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow-x: hidden;
+        margin-top: 20px; /* Add margin at the top for spacing */
+      }
 
     .items {
       display: flex;
@@ -34,374 +29,357 @@
       white-space: nowrap;
       scroll-behavior: smooth;
     }
-    .items::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-}
 
-.items::-webkit-scrollbar-button {
-    background-color: white; /* Change the color of the scrollbar arrow here */
-}
+      .item-prop1 {
+        color: white;
+        font-size: 12px;
+        font-family: cursive;
+        margin: 10px;
+      }
 
-    .item-prop1 {
-      color: white;
-      font-size: 12px;
-      font-family: cursive;
-      margin: 10px;
-    }
+      .item_prop {
+        position: relative;
+        left: 40%;
+        top: 50%;
+      }
 
-    .item_prop {
-      position: relative;
-      left: 40%;
-      top: 50%;
-    }
+      .item,
+      .live-item {
+        flex: 0 0 auto;
+        width: 171px;
+        height: 305px;
+        background-color: #333;
+        margin-right: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
 
-    .item,
-    .live-item {
-      flex: 0 0 auto;
-      width: 171px;
-      height: 305px;
-      background-color: #333;
-      margin-right: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
+      .item:hover,
+      .live-item:hover {
+        transform: scale(1.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      }
 
-    .item:hover,
-    .live-item:hover {
-      transform: scale(1.15);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
+      .scrollButton {
+        display: none;
+      }
 
-    .scrollButton {
-      display: none;
-    }
+      .scrollButton:hover {
+        opacity: 0.4;
+      }
 
-    .scrollButton:hover {
-      opacity: 0.4;
-    }
+      .tagcloud {
+        display: inline-block;
+        top: 0px;
+        left: 32%;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+      }
 
-    .tagcloud {
-      display: inline-block;
-      top: 0px;
-      left: 32%;
-      font-weight: bold;
-      letter-spacing: 1px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 20px;
-    }
-
-    /* Change color of each text in sphere on hover   */
-    .tagcloud--item:hover {
-      color: red;
-      cursor: pointer;
-    }
+      /* Change color of each text in sphere on hover   */
+      .tagcloud--item:hover {
+        color: red;
+        cursor: pointer;
+      }
 
     .sphere_body {
       height: 70vh;
       width: 100%;
-    }
-    .videosContainer{
-      width: 90%;
-      margin: auto;
     }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
   
   <script type="text/javascript">
-
-     
-    
     // create hashtag wordcloud
-    //document.addEventListener("DOMContentLoaded", function() {
-     
+    document.addEventListener("DOMContentLoaded", function() {
+      const Texts = [
+        "HTML",
+        "CSS",
+        "JAVASCRIPT",
+        "SWIFT",
+        "MONGOOSE",
+        "REACT",
+        "PYTHON",
+        "SASS",
+        "DJANGO",
+        "NODEJS",
+        "MONGODB",
+        "EXPRESS",
+        "MYSQL",
+        "JQUERY",
+        "JAVA",
+      ];
 
-    $(() => {
-       // ***********************fetch data from the wordcloud and display it in the sphere ************************
-       fetch("http://localhost:80/wordcloud")
-                    .then(response => response.json())
-                    .then(data => {
+      let tagCloud = TagCloud(".Sphere", Texts, {
+        // Sphere radius in px
+        radius: 230,
 
-                      console.log(data)
-                        var tagCloud = TagCloud('.sphere_body', data, {
-                            radius: 230,
-                            maxSpeed: 'normal',
-                            initSpeed: 'fast',
-                            direction: 135,
-                            keep: true
-                        });
+        // animation speed
+        // slow, normal, fast
+        maxSpeed: "normal",
+        initSpeed: "fast",
 
-                        var color = '#FF5733';
-                        document.querySelectorAll('.sphere_body span').forEach(wordElement => {
-                            wordElement.style.color = color;
-                            
+        // Rolling direction [0 (top) , 90 (left), 135 (right-bottom)]
+        direction: 135,
 
-                            // Add click event listener to the word element
-                            wordElement.addEventListener('click', function() {
-                                var clickedWord = this.textContent;
-                                console.log('Clicked word: is this ', clickedWord);
-                          
-                                window.location.href = '/videolist?word=' + clickedWord;
-
-                                
-                        });
-                    })
-                  })
-                    .catch(error => {
-                        console.error("Error fetching data:", error);
-                    });
-    
-      // // hashtag click event
-      // let rootEl = document.querySelector(".tagcloud");
-      // rootEl.addEventListener("click", function clickEventHandler(e) {
-      //   console.log(e.target.className);
-      //   const item = e.target.innerText;
-      //   if (e.target.className === "tagcloud--item") {
-      //     window.open(
-      //       // `https://www.google.com/search?q=${e.target.innerText}`,
-      //       // "_blank"
-      //       (window.location.href = `http://localhost:80/index2?item=${item}`)
-      //       // "http://localhost:80/play"
-      //     );
-      //   }
-      // });
-
-      function loadVideoData(category, count) {
-        $.get("/getVideos", {
-          category: category,
-          count: count
-        }, (data) => {
-          const containerId = `#${category}Items`; // Dynamically sets the container ID based on category
-          data.forEach((item) => {
-            $(containerId).append(
-              `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
-            <%- include('./partial/_item_prop.html') %>
-         </div>`
-            );
-          });
-        });
-      }
-
-      // Load different categories of data
-      loadVideoData("trending", 20);
-      loadVideoData("sport", 10);
-      loadVideoData("funny", 10);
-      loadVideoData("cat", 10);
-
-
-      // click video reflowCover event
-      // $(document).on('click', '.item', function() {
-      //   console.log("hello");
-      //   let playObj = {
-      //     cookie: $(this).attr('playCookie'),
-      //     playUrl: $(this).attr('playUrl'),
-      //   };
-
-      //   $.post("/play", playObj, (response) => {
-      //     if (response.redirectUrl) {
-      //       window.location.href = response.redirectUrl;
-      //     }
-      //   });
-
-      // });
-
-      // click video and play (modal)
-      $(document).on("click", ".item", function() {
-        let videoInfo = {
-          cookie: $(this).attr("playCookie"),
-          playUrl: $(this).attr("playUrl"),
-        };
-
-        $.post("/play", videoInfo, () => {
-          $("#modalVideo source").attr("src", "/play");
-          $("#modalVideo")[0].load();
-
-          $("#videoModal").css("display", "flex");
-        }).fail(() => {
-          console.error("Error: Unable to play video.");
-        });
+        // interaction with mouse or not [Default true (decelerate to rolling init speed, and keep rolling with mouse).]
+        keep: true,
       });
 
-      $(document).on("click", function(event) {
-        if ($(event.target).is("#videoModal")) {
-          $("#videoModal").css("display", "none");
-          $("#modalVideo")[0].pause();
-          $("#modalVideo source").attr("src", "");
-          $("#modalVideo")[0].load();
-        }
-      });
-
-      // click live and play (jump & modal)
-      $(document).on("click", ".live-item", function() {
-        const liveId = $(this).attr("data-liveid");
-        const hlsUrl = $(this).attr("data-hlsurl");
-        window.location.href = `/chatroom.html?liveId=${encodeURIComponent(liveId)}&hlsUrl=${encodeURIComponent(hlsUrl)}`;
-        // let hlsUrl = $(this).attr("data-hlsurl")
-        // // check hls support
-        // let video = document.getElementById('modalVideo');
-        // if (Hls.isSupported()) {
-        //   let hls = new Hls();
-        //   hls.loadSource(hlsUrl);
-        //   hls.attachMedia(video);
-        //   hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        //     video.play();
-        //   });
-        // }
-        // // can play
-        // else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        //   video.src = hlsUrl;
-        //   video.addEventListener('canplay', function() {
-        //     video.play();
-        //   });
-        // }
-
-        // // show
-        // $("#videoModal").css("display", "flex");
-      });
-
-      $(document).on("click", function(event) {
-        if ($(event.target).is("#videoModal")) {
-          $("#videoModal").css("display", "none");
-          $("#modalVideo")[0].pause();
-          $("#modalVideo source").attr("src", "");
-          $("#modalVideo")[0].load();
-        }
-      });
-
-      // LiveStreaming
-      $(document).on("click", '#Live', function() {
-        // console.log("click")
-        const categories = ["game"];
-
-        categories.forEach(category => {
-          $.ajax({
-            url: '/getLives',
-            type: 'GET',
-            data: {
-              category: category
-            },
-            success: function(data) {
-              // console.log(data)
-              updateLiveContent(category, data);
-            },
-            error: function(xhr, status, error) {
-              console.error("get livestreaming error: ", error);
-            }
-          });
-        });
-      })
-
-      // click home
-      $(document).on('click', '#Home', function() {
-        $('#liveStreamingContainer').css('display', 'none');
-        $('#videosContainer').css('display', '');
-      })
-
-
-
+      // Giving color to each text in sphere
+      let color = "#fff";
+      document.querySelector(".Sphere").style.color = color;
     });
 
-    function updateLiveContent(category, liveData) {
-      $("#videosContainer").css("display", "none");
-      $("#liveStreamingContainer").css("display", "");
+    $(() => {
+      // hashtag click event
+      let rootEl = document.querySelector(".tagcloud");
+      rootEl.addEventListener("click", function clickEventHandler(e) {
+        console.log(e.target.className);
+        const item = e.target.innerText;
+        if (e.target.className === "tagcloud--item") {
+          window.open(
+            // `https://www.google.com/search?q=${e.target.innerText}`,
+            // "_blank"
+            (window.location.href = `http://localhost:80/index2?item=${item}`)
+            // "http://localhost:80/play"
+          );
+        }
+      });
 
+        function loadVideoData(category, count) {
+          $.get(
+            "/getVideos",
+            {
+              category: category,
+              count: count,
+            },
+            (data) => {
+              const containerId = `#${category}Items`; // Dynamically sets the container ID based on category
+              data.forEach((item) => {
+                $(containerId).append(
+                  `<div class="item" playCookie="${item.videoLinkHeaders.Cookie}" playUrl="${item.downloadAddr}" style="background-image: url('${item.reflowCover}');">
+            <%- include('./partial/_item_prop.html') %>
+         </div>`
+                );
+              });
+            }
+          );
+        }
 
-      const liveContainer = $("#liveStreamingItems");
-      liveContainer.html("");
+        // Load different categories of data
+        loadVideoData("trending", 20);
+        loadVideoData("sport", 10);
+        loadVideoData("funny", 10);
+        loadVideoData("cat", 10);
 
-      liveData.forEach(function(live) {
-        // console.log(live.cover.urlList[0])
-        // console.log(live.title)
-        let streamJson = JSON.parse(live.streamUrl);
-        let liveId = live.liveStreamId;
-        let originHls = streamJson.data.origin.main.hls;
-        console.log(live)
-        // console.log(originHls)
-        const liveContent = `
+        // click video reflowCover event
+        // $(document).on('click', '.item', function() {
+        //   console.log("hello");
+        //   let playObj = {
+        //     cookie: $(this).attr('playCookie'),
+        //     playUrl: $(this).attr('playUrl'),
+        //   };
+
+        //   $.post("/play", playObj, (response) => {
+        //     if (response.redirectUrl) {
+        //       window.location.href = response.redirectUrl;
+        //     }
+        //   });
+
+        // });
+
+        // click video and play (modal)
+        $(document).on("click", ".item", function () {
+          let videoInfo = {
+            cookie: $(this).attr("playCookie"),
+            playUrl: $(this).attr("playUrl"),
+          };
+
+          $.post("/play", videoInfo, () => {
+            $("#modalVideo source").attr("src", "/play");
+            $("#modalVideo")[0].load();
+
+            $("#videoModal").css("display", "flex");
+          }).fail(() => {
+            console.error("Error: Unable to play video.");
+          });
+        });
+
+        $(document).on("click", function (event) {
+          if ($(event.target).is("#videoModal")) {
+            $("#videoModal").css("display", "none");
+            $("#modalVideo")[0].pause();
+            $("#modalVideo source").attr("src", "");
+            $("#modalVideo")[0].load();
+          }
+        });
+
+        // click live and play (jump & modal)
+        $(document).on("click", ".live-item", function () {
+          const liveId = $(this).attr("data-liveid");
+          const hlsUrl = $(this).attr("data-hlsurl");
+          window.location.href = `/chatroom.html?liveId=${encodeURIComponent(
+            liveId
+          )}&hlsUrl=${encodeURIComponent(hlsUrl)}`;
+          // let hlsUrl = $(this).attr("data-hlsurl")
+          // // check hls support
+          // let video = document.getElementById('modalVideo');
+          // if (Hls.isSupported()) {
+          //   let hls = new Hls();
+          //   hls.loadSource(hlsUrl);
+          //   hls.attachMedia(video);
+          //   hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          //     video.play();
+          //   });
+          // }
+          // // can play
+          // else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          //   video.src = hlsUrl;
+          //   video.addEventListener('canplay', function() {
+          //     video.play();
+          //   });
+          // }
+
+          // // show
+          // $("#videoModal").css("display", "flex");
+        });
+
+        $(document).on("click", function (event) {
+          if ($(event.target).is("#videoModal")) {
+            $("#videoModal").css("display", "none");
+            $("#modalVideo")[0].pause();
+            $("#modalVideo source").attr("src", "");
+            $("#modalVideo")[0].load();
+          }
+        });
+
+        // LiveStreaming
+        $(document).on("click", "#Live", function () {
+          // console.log("click")
+          const categories = ["game"];
+
+          categories.forEach((category) => {
+            $.ajax({
+              url: "/getLives",
+              type: "GET",
+              data: {
+                category: category,
+              },
+              success: function (data) {
+                // console.log(data)
+                updateLiveContent(category, data);
+              },
+              error: function (xhr, status, error) {
+                console.error("get livestreaming error: ", error);
+              },
+            });
+          });
+        });
+
+        // click home
+        $(document).on("click", "#Home", function () {
+          $("#liveStreamingContainer").css("display", "none");
+          $("#videosContainer").css("display", "");
+        });
+      });
+
+      function updateLiveContent(category, liveData) {
+        $("#videosContainer").css("display", "none");
+        $("#liveStreamingContainer").css("display", "");
+
+        const liveContainer = $("#liveStreamingItems");
+        liveContainer.html("");
+
+        liveData.forEach(function (live) {
+          // console.log(live.cover.urlList[0])
+          // console.log(live.title)
+          let streamJson = JSON.parse(live.streamUrl);
+          let liveId = live.liveStreamId;
+          let originHls = streamJson.data.origin.main.hls;
+          console.log(live);
+          // console.log(originHls)
+          const liveContent = `
       <div class="live-item" data-liveid="${liveId}" data-hlsUrl="${originHls}" style="background-image: url('${live.cover.urlList[0]}');">
         <div class="item-prop1">${live.title}</div>
       </div>
     `;
-        liveContainer.append(liveContent);
-      });
+          liveContainer.append(liveContent);
+        });
 
-      liveContainer.parent().css("display", "block");
-    }
-  </script>
-</head>
+        liveContainer.parent().css("display", "block");
+      }
+    </script>
+  </head>
 
-<body>
-  <%- include('./partial/navBar.html') %>
+  <body>
+    <%- include('./partial/navBar.html') %>
 
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <!-- <span id="closeModal" class="close">&times;</span> -->
-      <div class="video-container">
-        <video id="modalVideo" controls>
-          <source src="" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+    <div id="videoModal" class="modal">
+      <div class="modal-content">
+        <!-- <span id="closeModal" class="close">&times;</span> -->
+        <div class="video-container">
+          <video id="modalVideo" controls>
+            <source src="" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="sphere_body">
     <span class="Sphere"></span>
   </div>
 
+    <!-- The container for the videos information -->
+    <!-- vidows container -->
+    <div id="videosContainer">
+      <div class="videos-row">
+        <h2>Trending 🔥</h2>
+        <div class="container">
+          <div class="items" id="trendingItems"></div>
+        </div>
+      </div>
 
-  <!-- The container for the videos information -->
-  <!-- vidows container -->
-  <div id="videosContainer">
-    <div class="videos-row">
-      <h2>Trending 🔥</h2>
+      <br /><br />
+
+      <div class="videos-row">
+        <h2>Sport ⚽️</h2>
+        <div class="container">
+          <div class="items" id="sportItems"></div>
+        </div>
+      </div>
+
+      <br /><br />
+
+      <div class="videos-row">
+        <h2>Funny 😂</h2>
+        <div class="container">
+          <div class="items" id="funnyItems"></div>
+        </div>
+      </div>
+
+      <br /><br />
+
+      <div class="videos-row">
+        <h2>Cat 🐱</h2>
+        <div class="container">
+          <div class="items" id="catItems"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- livestreaming container -->
+    <div class="lives-row" id="liveStreamingContainer" style="display: none">
+      <h2>Live Streaming 📡</h2>
       <div class="container">
-        <div class="items" id="trendingItems"></div>
+        <div class="items" id="liveStreamingItems"></div>
       </div>
     </div>
 
-    <br /><br />
-
-    <div class="videos-row">
-      <h2>Sport ⚽️</h2>
-      <div class="container">
-        <div class="items" id="sportItems"></div>
-      </div>
-    </div>
-
-    <br /><br />
-
-    <div class="videos-row">
-      <h2>Funny 😂</h2>
-      <div class="container">
-        <div class="items" id="funnyItems"></div>
-      </div>
-    </div>
-
-    <br /><br />
-
-    <div class="videos-row">
-      <h2>Cat 🐱</h2>
-      <div class="container">
-        <div class="items" id="catItems"></div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- livestreaming container -->
-  <div class="lives-row" id="liveStreamingContainer" style="display: none;">
-    <h2>Live Streaming 📡</h2>
-    <div class="container">
-      <div class="items" id="liveStreamingItems">
-
-      </div>
-    </div>
-  </div>
-
-  <%- include('./partial/_footer.html') %>
-</body>
-
+    <%- include('./partial/_footer.html') %>
+  </body>
 </html>

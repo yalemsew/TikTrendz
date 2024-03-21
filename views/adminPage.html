@@ -67,65 +67,235 @@
       background-color: #555;
       color: white;
     }
+
+    /* Video List Styles */
+    .list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .list-item {
+      background-color: #202020;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .list-item-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #E50914;
+    }
+
+    .list-item div {
+      font-size: 14px;
+    }
+
+    .list-item div::before {
+      content: "•";
+      margin-right: 8px;
+      color: #E50914;
+    }
   </style>
 </head>
 
 <body>
   <div class="sidebar">
-    <a href="#home">Home</a>
-    <a href="#" id="fetch-video">Fetch Video</a>
-    <a href="/liveStream">Live Stream</a>
-    <a href="signin.html">Users</a>
-    <a href="#settings">Settings</a>
+    <a href="#" id="home-btn">Home</a>
+    <a href="#" id="fetch-video-btn">Fetch Video</a>
+    <a href="#" id="videos-btn">Videos</a>
+    <a href="#" id="live-stream-btn">Live Streaming</a>
+    <a href="#" id="users-btn">Users</a>
     <a href="/logout">Logout</a>
   </div>
+
   <div class="content" id="main-content">
     <h2>Welcome to the Admin Dashboard</h2>
-    <div id="video-container"></div>
+    <div id="page-content"></div>
   </div>
 
+  <!-- Templates -->
+  <template id="fetch-video-template">
+    <h2>Fetch Video</h2>
+    <button id="manual-fetch">Fetch Now</button>
+    <input type="text" id="cron-input" placeholder="Enter Cron Expression">
+    <button id="save-cron">Submit Cron</button>
+  </template>
+
+  <template id="videos-template">
+    <h2>Videos</h2>
+    <div id="videos-list" class="list-container">
+      <!-- Video items will be inserted here -->
+    </div>
+  </template>
+
+  <template id="live-stream-template">
+    <h2>Live Streaming</h2>
+    <div id="live-stream-list" class="list-container">
+      <!-- Live stream items will be inserted here -->
+    </div>
+  </template>
+
+  <template id="users-template">
+    <h2>Users</h2>
+    <div id="users-list" class="list-container">
+      <!-- User items will be inserted here -->
+    </div>
+  </template>
+
   <script>
-    document.getElementById('fetch-video').addEventListener('click', fetchVideo);
+    const videos = [{
+        title: "Video 1",
+        likes: 100,
+        comments: 20,
+        favorites: 50,
+        views: 1000
+      },
+      {
+        title: "Video 2",
+        likes: 150,
+        comments: 30,
+        favorites: 60,
+        views: 1500
+      },
+    ];
+    const liveStreams = [{
+        title: "Live Stream 1",
+        likes: 120,
+        comments: 45,
+        favorites: 75,
+        views: 3000
+      },
+      {
+        title: "Live Stream 2",
+        likes: 200,
+        comments: 80,
+        favorites: 100,
+        views: 4500
+      },
+    ];
 
-    function fetchVideo() {
-      const videoContainer = document.getElementById("video-container");
-      videoContainer.innerHTML = ''; // Clear previous content
+    const users = [{
+        username: "user1",
+        email: "user1@example.com"
+      },
+      {
+        username: "user2",
+        email: "user2@example.com"
+      },
+    ];
+    document.getElementById('fetch-video-btn').addEventListener('click', () => loadTemplate('fetch-video-template'));
+    document.getElementById('videos-btn').addEventListener('click', function() {
+      loadTemplate('videos-template');
+      renderVideos(videos);
+    });
+    document.getElementById('live-stream-btn').addEventListener('click', function() {
+      loadTemplate('live-stream-template');
+      renderLiveStreams(liveStreams);
+    });
+    document.getElementById('users-btn').addEventListener('click', function() {
+      loadTemplate('users-template');
+      renderUsers(users);
+    });
 
-      const input = document.createElement("input");
-      input.type = "text";
-      input.placeholder = "Enter value";
-      videoContainer.appendChild(input);
+    function loadTemplate(templateId) {
+      const template = document.getElementById(templateId);
+      const clone = document.importNode(template.content, true);
+      const container = document.getElementById("page-content");
+      container.innerHTML = ''; // Clear previous content
+      container.appendChild(clone);
 
-      const button = document.createElement("button");
-      button.innerText = "Submit";
-      button.onclick = submitForm;
-      videoContainer.appendChild(button);
+      if (templateId === 'fetch-video-template') {
+        document.getElementById('manual-fetch').addEventListener('click', manualFetch);
+        document.getElementById('save-cron').addEventListener('click', saveCron);
+      }
+
+
+      if (templateId === 'live-stream-template') {
+        // fetchLiveStreams() to fetch and display live streaming list
+      }
+      if (templateId === 'users-template') {
+        // fetchUsers() to fetch and display user list
+      }
     }
 
-    function submitForm() {
-      const inputValue = document.querySelector("#video-container input").value;
+    function renderVideos(videos) {
+      const listContainer = document.getElementById("videos-list");
+      listContainer.innerHTML = '';
 
-      fetch("http://localhost/fetchLive", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            value: inputValue
-          }),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Response from backend:", data);
-          alert("Response from backend: " + JSON.stringify(data));
+      videos.forEach(video => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+      <div class="list-item-title">${video.title}</div>
+      <div>Likes: ${video.likes}</div>
+      <div>Comments: ${video.comments}</div>
+      <div>Favorites: ${video.favorites}</div>
+      <div>Views: ${video.views}</div>
+    `;
+        listContainer.appendChild(item);
+      });
+    }
 
-          const videoContainer = document.getElementById("video-container");
-          videoContainer.innerHTML = ''; // Clear the input and button
-        })
-        .catch((error) => {
-          console.error("Error submitting form:", error);
-          alert("Error submitting form");
-        });
+    function renderLiveStreams(liveStreams) {
+      const listContainer = document.getElementById("live-stream-list");
+      listContainer.innerHTML = '';
+
+      liveStreams.forEach(stream => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+      <div class="list-item-title">${stream.title}</div>
+      <div>Likes: ${stream.likes}</div>
+      <div>Comments: ${stream.comments}</div>
+      <div>Favorites: ${stream.favorites}</div>
+      <div>Views: ${stream.views}</div>
+    `;
+        listContainer.appendChild(item);
+      });
+    }
+
+    function renderUsers(users) {
+      const listContainer = document.getElementById("users-list");
+      listContainer.innerHTML = '';
+
+      users.forEach(user => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+      <div class="list-item-title">${user.username}</div>
+      <div>Email: ${user.email}</div>
+    `;
+        listContainer.appendChild(item);
+      });
+    }
+
+    function manualFetch() {
+      console.log('Manual fetch initiated');
+      // Implement the fetch logic here
+    }
+
+    function saveCron() {
+      const cronExpression = document.getElementById('cron-input').value;
+      console.log('Cron expression submitted:', cronExpression);
+      // Implement the logic to save the cron expression to the backend
+    }
+
+    // Placeholder functions for fetching and rendering data
+    // You'll need to implement these functions based on your backend API and data structure
+    function fetchVideos() {
+      // Fetch videos and render them in the 'videos-list' container
+    }
+
+    function fetchLiveStreams() {
+      // Fetch live streams and render them in the 'live-stream-list' container
+    }
+
+    function fetchUsers() {
+      // Fetch users and render them in the 'users-list' container
     }
   </script>
 </body>
