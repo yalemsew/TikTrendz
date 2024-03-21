@@ -6,6 +6,10 @@ module.exports = function (app) {
 
   app.get("/user", userController.findAll);
 
+  app.get("/unauthorized", (req, res) => {
+    res.render("unauthorized");
+  });
+
   app.get("/user/:userId", userController.findOne);
 
   app.put("/user/:userId", userController.update);

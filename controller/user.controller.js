@@ -43,7 +43,11 @@ exports.login = async (req, res) => {
     console.log("Login successful", token);
     // set jwt to broswer
     res.cookie("jwt", token, { httpOnly: true, secure: true });
-    res.redirect("/admin");
+    if (user.role === "user") {
+      res.redirect("/mainpage");
+    } else if (user.role === "admin" || user.role === "it") {
+      res.redirect("/admin");
+    }
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Error logging in", error });
